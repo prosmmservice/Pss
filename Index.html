@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Pro SMM Services</title>
-<style>.
+<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,Arial,sans-serif;color:#172033;background:#f5f8ff;overflow-x:hidden}
 body:before,body:after{content:"";position:fixed;width:500px;height:500px;border-radius:50%;filter:blur(90px);opacity:.23;z-index:-2;animation:float 12s ease-in-out infinite}
@@ -104,6 +104,151 @@ body:before{background:#00c6ff;left:-180px;top:80px}body:after{background:#b24cf
   border:1px solid #e3e8f3;
   border-radius:15px;
   padding:10px;
+}
+.service-card-static .offerrow{
+  padding:10px 4px 7px;
+}
+.service-card-static .buy{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(90deg,#00d9ee,#8a6cff,#ff57c8)!important;
+  background-size:220% 100%!important;
+  color:#fff!important;
+  border:0!important;
+  box-shadow:0 8px 20px rgba(115,92,255,.18);
+  transition:.25s;
+  animation:buttonGradient 5s linear infinite;
+}
+.service-card-static .buy:after{
+  content:"";
+  position:absolute;top:0;left:-80%;
+  width:45%;height:100%;
+  transform:skewX(-22deg);
+  background:#ffffff66;
+  animation:buttonShine 3.5s infinite;
+}
+.service-card-static .buy:hover{
+  transform:scale(1.025);
+  box-shadow:0 12px 28px rgba(115,92,255,.28);
+}
+@keyframes cardBorder{
+  0%,100%{background-position:0 0,0% 50%}
+  50%{background-position:0 0,100% 50%}
+}
+@keyframes orbMove{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-35px,35px) scale(1.18)}
+}
+@keyframes cardShine{
+  0%,45%{left:-120%}
+  70%,100%{left:150%}
+}
+@keyframes iconFloat{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-5px) rotate(2deg)}
+}
+@keyframes buttonGradient{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes buttonShine{
+  0%,45%{left:-80%}
+  65%,100%{left:145%}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-card-static,.service-card-static:before,.service-card-static:after,
+  .service-card-static .icon,.service-card-static .buy,.service-card-static .buy:after{animation:none!important}
+}
+@keyframes dashOrb{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-35px,35px) scale(1.18)}}
+@keyframes dashShine{0%,42%{left:-120%}68%,100%{left:150%}}
+@keyframes miniFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.animated-dashboard-title{display:inline-block;background:linear-gradient(90deg,#08758b,#6d50df,#d63a9e,#08758b);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleGradient 4s linear infinite}
+@keyframes titleGradient{to{background-position:250% center}}
+
+/* Requested header fixes only */
+.navlinks a{color:#46536d!important;text-decoration:none!important}
+.navlinks a:hover{color:#6d4ee8!important}
+.navbtn{color:#25314b!important;background:#ffffff!important;border-color:#d8e2f2!important;cursor:pointer}
+.top-logo-link{
+  display:flex;align-items:center;justify-content:center;
+  width:42px;height:42px;margin-left:auto;margin-right:9px;
+  border-radius:12px;border:1px solid #d8e2f2;
+  background:#fff;box-shadow:0 7px 20px rgba(71,82,140,.10);
+  overflow:hidden;text-decoration:none;
+}
+.top-logo{width:34px;height:34px;object-fit:contain;border-radius:9px}
+.secondary{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:47px;background:#fff!important;color:#34415e!important;
+  border:1px solid #d6deeb!important;font-weight:700;
+  box-shadow:0 8px 20px rgba(71,82,140,.08);
+}
+.secondary:hover{color:#684ce1!important;border-color:#b9aaff!important}
+@media(max-width:560px){
+  .top-logo-link{width:38px;height:38px;margin-right:3px}
+  .top-logo{width:30px;height:30px}
+  .navbtn{font-size:12px;padding:9px 12px}
+}
+
+.retry-note{background:#fff4e8;border:1px solid #ffd19a;color:#9a5b00}
+.modalbox .secondary.full{color:#34415e!important;background:#fff!important;border:1px solid #d6deeb!important}
+</style>
+</head>
+<body>
+<header class="header"><div class="container nav">
+<div class="logo">✦ <span>Pro SMM Services</span></div>
+<nav class="navlinks"><a href="#services">Services</a><a href="#how">How it works</a><a href="#faq">FAQ</a></nav>
+<a class="top-logo-link" href="#" aria-label="Pro SMM Services logo">
+<img id="topLogo" class="top-logo" src="" alt="Logo">
+</a>
+<button class="navbtn" onclick="goServices()">Get Started</button>
+</div></header>
+
+<section class="hero"><div class="container hero-grid">
+<div>
+<span class="tag">⚡ FAST • SIMPLE • 24/7 ORDERS</span>
+<h1>Make your social presence <span class="gradient">stand out.</span></h1>
+<p>Affordable Instagram, YouTube, Telegram and Facebook promotion services. Select a package, enter your public target, pay the fixed amount and submit your UTR for secure server-side verification.</p>
+<div class="actions"><button class="primary" onclick="goServices()">Explore Services →</button><a class="secondary" href="#how">How To Order</a></div>
+</div>
+<div class="hero-panel">
+<div class="panel-head"><b class="animated-dashboard-title">PRO SMM DASHBOARD</b><span class="live">● LIVE</span></div>
+<div class="big-number">3100+</div><div class="muted">Trusted Costumers</div>
+<div class="mini"><div>Instagram<b>1895+</b><small>Costumers</small></div><div>YouTube<b>1154+</b><small>Costumers</small></div><div>Telegram<b>1548+</b><small>Costumers</small></div><div>Facebook<b>458+</b><small>Costumers</small></div></div>
+<div class="bar"><span></span></div><div class="muted">Order flow: Target → Payment → UTR verification</div>
+</div>
+</div></section>
+
+
+
+
+<section id="services" class="section services-section"><div class="container">
+<div class="section-head"><div><div class="eyebrow">OUR SERVICES</div><h2>All services</h2></div><p>Choose any platform and package. Every package has its own Buy Now button.</p></div>
+<div class="service-tabs">
+<button class="tab active" onclick="filterServices('all',this)">All Services</button>
+<button class="tab" onclick="filterServices('Instagram',this)">Instagram</button>
+<button class="tab" onclick="filterServices('YouTube',this)">YouTube</button>
+<button class="tab" onclick="filterServices('Telegram',this)">Telegram</button>
+<button class="tab" onclick="filterServices('Facebook',this)">Facebook</button>
+</div>
+
+<div id="grid" class="services">
+
+<article class="card service-card-static" data-platform="Instagram">
+  <div class="service-head"><div class="icon" id="instagramIcon"></div><div><span class="platform">INSTAGRAM</span><h3>Instagram Growth</h3></div></div>
+  <p class="service-desc">Followers, likes & reel/video views</p>
+  <div class="offer"><div class="offerrow"><span>5,000 Followers</span><b class="price">₹29</b></div><button class="buy" onclick="orderStatic('Instagram','5,000 Followers','₹29')">Buy Now →</button>
+  <div class="offerrow"><span>10,000 Followers</span><b class="price">₹55</b></div><button class="buy" onclick="orderStatic('Instagram','10,000 Followers','₹55')">Buy Now →</button>
+  <div class="offerrow"><span>5,000 Likes</span><b class="price">₹25</b></div><button class="buy" onclick="orderStatic('Instagram','10,000 Likes','₹25')">Buy Now →</button>
+  <div class="offerrow"><span>10,000 Reel Views</span><b class="price">₹19</b></div><button class="buy" onclick="orderStatic('Instagram','50,000 Views','₹29')">Buy Now →</button></div>
+</article>
+
+<article class="card service-card-static" data-platform="YouTube">
+  <div class="service-head"><div class="icon" id="youtubeIcon"></div><div><span class="platform">YOUTUBE</span><h3>YouTube Growth</h3></div></div>
+  <p class="service-desc">Views, likes & channel promotion</p>
+  <div class="offer"><div class="offerrow"><span>1,000 Shorts Views</span><b class="price">₹19</b></div><button class="buy" onclick="orderStatic('YouTube','1,000 Views','₹19')">Buy Now →</button>
+  <div class="offerrow"><span>10,000 Views</span><b class="price">₹79</b></div><button class="buy" onclick="orderStatic('YouTube','10,000 Views','₹79')">Buy Now →</button>
 }
 .service-card-static .offerrow{
   padding:10px 4px 7px;
