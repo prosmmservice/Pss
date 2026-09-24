@@ -2,108 +2,253 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Meesho</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pro SMM Services</title>
 <style>
-:root{--pink:#9b257f;--green:#087b68;--dark:#363b46;--muted:#737887;--line:#e6e7ec;--bg:#f6f6f8}
-*{box-sizing:border-box}body{margin:0;background:#eef0f3;font-family:Arial,sans-serif;color:var(--dark)}button,input,textarea{font:inherit}button{cursor:pointer;border:0}
-.app{max-width:720px;margin:auto;background:#fff;min-height:100vh;padding-bottom:92px}.header{height:118px;display:flex;align-items:flex-end;padding:0 26px 22px;gap:28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:10}.back{margin-right:auto;background:none;font-size:46px}.navicon{font-size:32px;background:none}.location{padding:15px 26px;background:#f1f3fa;font-size:19px;font-weight:bold}
-.hero{height:560px;background:#eee center/cover no-repeat;position:relative}.morelike{position:absolute;right:22px;bottom:24px;background:#fff;padding:14px 20px;border-radius:30px;box-shadow:0 2px 10px #aaa;font-size:19px;font-weight:bold}.dots{height:40px;display:flex;justify-content:center;gap:10px;align-items:center}.dot{width:25px;height:5px;border-radius:9px;background:#e4e5e9}.dot.active{background:var(--pink)}
-.section{padding:25px 27px;border-top:7px solid var(--bg)}.similar-title{font-size:21px;margin-bottom:14px}.thumbs{display:flex;gap:13px;overflow:auto}.thumb{min-width:74px;height:98px;border-radius:10px;background:center/cover;border:2px solid transparent}.thumb.active{border-color:var(--pink)}
-.product-row{display:flex;align-items:center;gap:13px}.title{flex:1;font-size:25px;line-height:1.3}.iconblock{background:none;font-size:30px;text-align:center}.small{font-size:15px}.price{font-size:39px;font-weight:bold;margin:16px 0 8px}.strike{text-decoration:line-through;color:#777;font-size:21px;font-weight:normal}.off{font-size:20px;font-weight:normal}.discount{background:#e7f3ef;color:#247863;padding:8px;border-radius:4px;display:inline-block;font-size:18px}.special{color:#18705e;font-size:25px;margin:18px 0}.rating{display:inline-block;background:var(--green);color:#fff;padding:9px 13px;border-radius:22px;font-weight:bold}
-.perks{display:flex;border-radius:20px;background:linear-gradient(90deg,#f8eef6,#f5eff9);padding:12px}.perk{flex:1;padding:15px 8px;font-size:19px;font-weight:bold}.size-title{font-size:29px;font-weight:bold;margin-bottom:22px}.sizes{display:flex;gap:12px;flex-wrap:wrap}.size{min-width:95px;border:2px solid #42454c;border-radius:30px;padding:9px 18px;background:#fff;font-size:23px;font-weight:bold}.size.disabled{color:#c8cad1;border-color:#d6d8df;text-decoration:line-through}.size.selected{border-color:var(--pink);box-shadow:0 0 0 1px var(--pink)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:25px;font-size:21px}.label{color:#777;margin-bottom:6px}.copy{float:right;color:#8e2678;font-size:18px}.review-summary{display:flex;gap:20px;align-items:center}.big-rating{font-size:50px;font-weight:bold;background:var(--green);color:#fff;padding:25px;border-radius:15px}.bar{height:8px;background:#ddd;border-radius:8px;overflow:hidden;flex:1}.fill{height:100%;background:var(--green);width:62%}.barrow{display:flex;gap:9px;align-items:center;margin:13px 0}.customer-media{display:flex;gap:10px;overflow:auto}.media{min-width:110px;height:110px;border-radius:12px;background:center/cover;position:relative}.media:after{content:none!important;display:none!important}
-.review{border-bottom:1px solid var(--line);padding:22px 0}.badge{display:inline-block;padding:8px 12px;border-radius:20px;background:var(--green);color:#fff;font-weight:bold}.review p{font-size:19px;line-height:1.5}.readmore{color:#8e2678;font-weight:bold;background:none;padding:0}.viewall{padding-top:20px;color:#8e2678;font-weight:bold}
-.people-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#ddd}.card{position:relative;background:#fff;padding-bottom:13px}.card img{width:100%;height:300px;object-fit:cover;display:block}.wish{position:absolute;right:12px;top:12px;border-radius:50%;width:48px;height:48px;background:#fff;font-size:27px}.card-info{padding:10px 13px}.card-price{font-size:23px;font-weight:bold}.outstock{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;color:#fff;font-size:23px;font-weight:bold}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,100%);padding:16px 28px;background:#fff;border-top:2px solid #ddd;z-index:30}.buy{width:100%;background:var(--pink);color:#fff;padding:19px;border-radius:6px;font-size:25px;font-weight:bold}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,Arial,sans-serif;color:#172033;background:#f5f8ff;overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;width:500px;height:500px;border-radius:50%;filter:blur(90px);opacity:.23;z-index:-2;animation:float 12s ease-in-out infinite}
+body:before{background:#00c6ff;left:-180px;top:80px}body:after{background:#b24cff;right:-200px;bottom:0;animation-delay:-5s}
+@keyframes float{50%{transform:translate(90px,-50px) scale(1.15)}}@keyframes pulse{50%{box-shadow:0 0 35px #00e5ff55}}@keyframes up{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+.container{width:min(1180px,92%);margin:auto}.header{position:sticky;top:0;z-index:50;background:#ffffffd9;border-bottom:1px solid #dbe4f5;backdrop-filter:blur(18px)}.nav{height:72px;display:flex;align-items:center;justify-content:space-between}.logo{font-weight:800;font-size:20px;color:#17203a}.logo span{background:linear-gradient(90deg,#00e5ff,#7c5cff,#ff2bd6);-webkit-background-clip:text;color:transparent}.navlinks{display:flex;gap:28px;color:#59647b;font-size:13px}.navlinks a:hover{color:#fff}.navbtn{border:1px solid #d8e2f2;background:#ffffffaa;color:#fff;padding:10px 15px;border-radius:10px}
+.hero{min-height:650px;display:flex;align-items:center;padding:75px 0}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:center}.tag{display:inline-block;padding:8px 12px;border:1px solid #00bcd455;border-radius:99px;background:#00cfe80d;color:#08758b;font-size:11px;font-weight:700;letter-spacing:1px}.hero h1{font-size:clamp(43px,6vw,76px);line-height:1.02;letter-spacing:-3.5px;margin:22px 0 18px;animation:up .7s}.gradient{background:linear-gradient(90deg,#00e5ff,#7c5cff 45%,#ff2bd6);-webkit-background-clip:text;color:transparent;background-size:200%;animation:shine 5s linear infinite}@keyframes shine{to{background-position:200%}}.hero p{color:#657089;line-height:1.8;max-width:650px;font-size:16px}.actions{display:flex;gap:12px;margin:28px 0}.primary{border:0;color:#061017;font-weight:800;padding:14px 20px;border-radius:12px;background:linear-gradient(100deg,#00e5ff,#79f7df);cursor:pointer;animation:pulse 3s infinite}.secondary{padding:13px 18px;border:1px solid #d8e2f2;border-radius:12px;color:#fff;background:#ffffff}.hero-panel{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#ffffff 0%,#e8fbff 38%,#f3e9ff 72%,#ffe8f7 100%);
+  border:1px solid #ffffff;border-radius:28px;padding:24px;
+  box-shadow:0 25px 80px rgba(70,85,150,.18),inset 0 1px 0 #fff;
+  color:#18203a;
+}
+.hero-panel:before{
+  content:"";position:absolute;width:220px;height:220px;right:-80px;top:-90px;
+  border-radius:50%;filter:blur(18px);
+  background:linear-gradient(135deg,#00d9ff88,#7c5cff66,#ff4fc866);
+  animation:dashOrb 7s ease-in-out infinite;
+}
+.hero-panel:after{
+  content:"";position:absolute;left:-120%;top:0;width:65%;height:100%;
+  transform:skewX(-18deg);background:linear-gradient(90deg,transparent,#ffffffaa,transparent);
+  animation:dashShine 5s ease-in-out infinite;pointer-events:none;
+}
+.hero-panel>*{position:relative;z-index:1}
+.panel-head{display:flex;justify-content:space-between;color:#59647b;font-size:12px}.live{color:#08a66b;font-weight:800}.big-number{font-size:58px;font-weight:800;margin:30px 0 4px}.mini{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mini div{border:1px solid #ffffff0d;background:#f8fbff;border-radius:16px;padding:17px}.mini b{display:block;font-size:23px;margin:7px 0}.mini small{color:#74809a}.bar{height:7px;background:#ffffff0b;border-radius:99px;margin:22px 0;overflow:hidden}.bar span{display:block;height:100%;width:78%;background:linear-gradient(90deg,#00e5ff,#7c5cff,#ff2bd6);animation:load 2s}@keyframes load{from{width:0}}
+.section{padding:80px 0}.section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:30px}.eyebrow{font-size:10px;letter-spacing:1.5px;color:#08758b;font-weight:800}.section h2{font-size:38px;letter-spacing:-1.8px;margin:8px 0}.section-head p{color:#68748d;max-width:440px;line-height:1.6;font-size:13px}.services{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{position:relative;background:linear-gradient(160deg,#121323,#0c0e18);border:1px solid #dbe4f5;border-radius:19px;padding:20px;overflow:hidden;transition:.25s}.card:before{content:"";position:absolute;inset:-1px;background:linear-gradient(135deg,#00e5ff33,transparent 35%,#ff2bd633);opacity:0;transition:.25s;z-index:0}.card:hover{transform:translateY(-7px);border-color:#ffffff27}.card:hover:before{opacity:1}.card>*{position:relative;z-index:1}.icon{font-size:28px;width:50px;height:50px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#00e5ff16,#ff2bd616);border:1px solid #ffffff10}.card h3{margin:14px 0 6px}.card p{font-size:12px;color:#77839b;min-height:34px}.offer{border-top:1px solid #dbe4f5;padding-top:12px;margin-top:14px}.offerrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:12px;color:#4f5b74}.price{font-weight:800;color:#17203a}.buy{width:100%;margin-top:7px;padding:10px;border:0;border-radius:10px;background:linear-gradient(90deg,#00e5ff,#8df2dd);font-weight:800;color:#08202a;cursor:pointer}.buy:hover{filter:brightness(1.1)}
+.how{background:#eef4ff;border-top:1px solid #ffffff08;border-bottom:1px solid #dbe4f5}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.step{border:1px solid #dbe4f5;background:#ffffff;border-radius:18px;padding:22px}.num{color:#ff75e2;font-weight:800;font-size:12px}.step h3{font-size:15px}.step p{color:#878ea4;font-size:13px;line-height:1.6}.footer{padding:28px 0;color:#7b8498;font-size:12px;display:flex;justify-content:space-between}
+.quick-services{padding:0 0 35px}.quick-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:11px;letter-spacing:1.4px;font-weight:800;color:#52617a}.quick-title small{letter-spacing:0;text-transform:none;font-weight:600;color:#8190a8}.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.quick-grid>div{cursor:pointer;padding:15px 16px;border:1px solid #dbe4f5;border-radius:15px;background:#ffffffcc;box-shadow:0 10px 25px #7b8ba51a;display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;transition:.2s}.quick-grid>div:hover{transform:translateY(-3px);box-shadow:0 14px 30px #6577a52b}.quick-grid b{font-size:13px;color:#172033}.quick-grid span{grid-column:2;color:#71809a;font-size:11px;margin-top:2px}@media(max-width:900px){.quick-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.quick-grid{grid-template-columns:1fr}}
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center}.hide{display:none}.shade{position:absolute;inset:0;background:#17203399;backdrop-filter:blur(9px)}.modalbox{position:relative;width:min(500px,92%);max-height:90vh;overflow:auto;background:#ffffff;border:1px solid #d8e2f2;border-radius:23px;padding:26px;box-shadow:0 25px 80px #5b6b8526}.close{position:absolute;right:14px;top:12px;width:34px;height:34px;border-radius:9px;border:1px solid #d8e2f2;background:#ffffffaa;color:#26314b;font-size:22px;cursor:pointer}.modalbox h3{font-size:22px;margin:8px 35px 5px 0}.muted{font-size:12px;color:#74809a;line-height:1.6}.label{display:block;font-size:11px;color:#66718a;margin:18px 0 7px}.input{width:100%;padding:13px;border-radius:11px;border:1px solid #cbd7ea;background:#f7faff;color:#172033;outline:none}.input:focus{border-color:#00a9c7}.notice{padding:13px;border-radius:12px;background:#00e5ff0c;border:1px solid #00e5ff30;color:#08758b;font-size:12px;line-height:1.55;margin-top:14px}.success{background:#54efad0e;border-color:#54efad44;color:#087c52}.full{width:100%;margin-top:18px}.amount{text-align:center;font-size:34px;font-weight:800;margin-top:18px}.order{text-align:center;color:#74809a;font-size:11px}.qr{display:block;width:225px;height:225px;padding:9px;background:#fff;border-radius:14px;margin:17px auto}.center{text-align:center}code{color:#08758b}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.services{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}}
+@media(max-width:560px){.services,.steps{grid-template-columns:1fr}.section{padding:55px 0}.hero{padding:55px 0}.hero h1{letter-spacing:-2.5px}.section-head{display:block}.section-head p{margin-top:14px}.footer{gap:10px;flex-direction:column}}
 
-.image-modal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:80;display:none;align-items:center;justify-content:center;padding:20px}.image-modal img{max-width:100%;max-height:85vh;object-fit:contain}.image-modal button{position:absolute;right:20px;top:15px;color:#fff;background:none;font-size:42px}
-@media(max-width:480px){.hero{height:430px}.header{height:105px;padding:0 17px 18px;gap:19px}.title{font-size:21px}.card img{height:245px}.size{min-width:84px;font-size:20px}.perk{font-size:15px}}
+.service-tabs{display:flex;gap:8px;overflow-x:auto;padding:3px 0 18px;margin-bottom:6px;scrollbar-width:none}
+.service-tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 auto;border:1px solid #dce3ef;background:#fff;color:#59647b;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer}.tab.active{color:#fff;border-color:transparent;background:linear-gradient(90deg,#00bcd4,#6f5cff,#ef55bf);box-shadow:0 8px 22px #6f5cff22}
+.services{align-items:stretch}.card{box-shadow:0 12px 35px #5265a211}.card h3{color:#1b2640}.card .icon{color:#23304a}
+@media(max-width:560px){.container{width:94%}.header .nav{height:62px}.navbtn{padding:9px 12px;font-size:12px}.hero{min-height:auto;padding:48px 0 35px}.hero-grid{gap:28px}.hero p{font-size:14px}.actions{margin:22px 0;flex-direction:column}.actions button,.actions a{text-align:center;width:100%}.hero-panel{padding:18px;border-radius:20px}.big-number{font-size:45px;margin:20px 0 3px}.mini{gap:8px}.mini div{padding:13px}.mini b{font-size:20px}.section h2{font-size:30px}.section-head{margin-bottom:20px}.services{gap:12px}.card{padding:16px;border-radius:17px}.card p{min-height:auto}.offerrow{padding:7px 0}.buy{padding:12px;font-size:13px}.steps{gap:10px}.step{padding:17px}.footer{font-size:11px}}
 
-/* ===== COMPACT MOBILE SIZE UPDATE ===== */
-body{font-size:15px}
-.app{max-width:600px}
-.header{height:92px;padding:0 18px 15px;gap:20px}
-.back{font-size:38px}.navicon{font-size:26px}
-.header{position:sticky}
-.meesho-logo{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:112px;height:32px;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.meesho-logo svg{width:112px;height:32px;display:block}
-.header-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
-.header-actions .navicon{padding:0;min-width:28px}
-@media(max-width:480px){.meesho-logo{bottom:17px;width:100px}.meesho-logo svg{width:100px}.header-actions{gap:7px}.header-actions .navicon{font-size:24px}}
-.location{padding:11px 18px;font-size:15px}
-.hero{height:440px}.morelike{right:15px;bottom:18px;padding:10px 15px;font-size:15px}
-.dots{height:30px}.dot{width:18px;height:4px}
-.section{padding:18px 20px;border-top-width:5px}
-.similar-title{font-size:17px;margin-bottom:10px}
-.thumb{min-width:58px;height:78px;border-radius:8px}
-.title{font-size:19px}.iconblock{font-size:26px}.small{font-size:12px}
-.price{font-size:31px;margin:12px 0 6px}.strike{font-size:17px}.off{font-size:16px}
-.discount{font-size:15px;padding:6px}.special{font-size:20px;margin:14px 0}
-.rating{padding:7px 10px;font-size:14px}
-.perks{padding:9px;border-radius:14px}.perk{padding:10px 6px;font-size:14px}
-.size-title{font-size:24px;margin-bottom:16px}.sizes{gap:9px}
-.size{min-width:72px;padding:7px 14px;font-size:18px}
-.grid2{gap:18px;font-size:17px}.label{font-size:15px}
-.section h2{font-size:23px!important;margin:5px 0 18px}
-.big-rating{font-size:37px;padding:18px}.barrow{font-size:13px;margin:9px 0}
-.customer-media{gap:8px}.media{min-width:82px;height:82px;border-radius:9px}
-.review{padding:16px 0}.review p{font-size:15px;margin:10px 0}.badge{font-size:13px;padding:6px 9px}
-.card img{height:225px}.wish{width:38px;height:38px;font-size:22px;right:9px;top:9px}
-.card-info{padding:8px 10px}.card-price{font-size:18px}
-.outstock{font-size:18px}
-.bottom{padding:11px 18px}.buy{padding:15px;font-size:20px}
-.sheet{padding:22px 20px}.sheet-head{font-size:20px;margin-bottom:20px}.close{font-size:31px}
-.checkout-title{font-size:23px;margin:5px 0 18px}.field{padding:12px;font-size:16px}
-.payoption{padding:13px;font-size:15px}.total{padding:17px 0;font-size:21px}
-.qrbox img{width:190px;height:190px}
-@media(min-width:481px){.hero{height:500px}}
+.services-section{position:relative}.service-card-static{min-height:620px}
+.service-head{display:flex;align-items:center;gap:13px;margin-bottom:8px}
+.service-head h3{margin:3px 0 0;font-size:17px}.platform{font-size:9px;letter-spacing:1.4px;font-weight:800;color:#08758b}
+.service-desc{margin:5px 0 0!important;min-height:auto!important}
+.service-card-static .offer{margin-top:18px}
+.service-card-static .buy{background:#fff;border:1px solid #dfe5ef;box-shadow:0 5px 14px #65739a12;margin-bottom:5px}
+.service-card-static .buy:hover{background:linear-gradient(90deg,#00dff5,#b7ffe9);border-color:transparent}
+@media(max-width:900px){.service-card-static{min-height:auto}}
+@media(max-width:560px){.service-card-static{min-height:auto}.service-head h3{font-size:18px}.service-card-static .buy{padding:12px}}
+
+/* Animated service cards */
+.service-card-static{
+  position:relative;
+  isolation:isolate;
+  border:1px solid transparent!important;
+  background:
+    linear-gradient(145deg,#ffffff,#f4f7ff) padding-box,
+    linear-gradient(135deg,#00d9ff,#735cff,#ff4fc8,#00d9ff) border-box!important;
+  background-size:100% 100%,300% 300%!important;
+  animation:cardBorder 8s ease infinite;
+  box-shadow:0 18px 50px rgba(65,75,130,.12),inset 0 1px 0 #fff;
+}
+.service-card-static:before{
+  content:"";
+  position:absolute;
+  width:210px;height:210px;
+  right:-95px;top:-100px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#00e5ff55,#8a5cff44,#ff4fc833);
+  filter:blur(25px);
+  z-index:-1;
+  animation:orbMove 7s ease-in-out infinite;
+}
+.service-card-static:after{
+  content:"";
+  position:absolute;
+  left:-120%;top:0;
+  width:70%;height:100%;
+  transform:skewX(-18deg);
+  background:linear-gradient(90deg,transparent,#ffffffaa,transparent);
+  pointer-events:none;
+  animation:cardShine 5.5s ease-in-out infinite;
+}
+.service-card-static:hover{
+  transform:translateY(-10px) scale(1.012);
+  box-shadow:0 25px 65px rgba(71,76,150,.22),0 0 35px rgba(0,217,255,.12);
+}
+.service-card-static .icon{
+  background:linear-gradient(135deg,#e1fbff,#eee8ff,#ffe5f7);
+  border:1px solid #d9def0;
+  box-shadow:0 20px 80px rgba(87,81,170,.12);
+  animation:iconFloat 4s ease-in-out infinite;
+}
+.service-card-static:nth-child(2) .icon{animation-delay:-1s}
+.service-card-static:nth-child(3) .icon{animation-delay:-2s}
+.service-card-static:nth-child(4) .icon{animation-delay:-3s}
+.service-card-static .offer{
+  background:rgba(246,248,255,.78);
+  border:1px solid #e3e8f3;
+  border-radius:15px;
+  padding:10px;
+}
+.service-card-static .offerrow{
+  padding:10px 4px 7px;
+}
+.service-card-static .buy{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(90deg,#00d9ee,#8a6cff,#ff57c8)!important;
+  background-size:220% 100%!important;
+  color:#fff!important;
+  border:0!important;
+  box-shadow:0 8px 20px rgba(115,92,255,.18);
+  transition:.25s;
+  animation:buttonGradient 5s linear infinite;
+}
+.service-card-static .buy:after{
+  content:"";
+  position:absolute;top:0;left:-80%;
+  width:45%;height:100%;
+  transform:skewX(-22deg);
+  background:#ffffff66;
+  animation:buttonShine 3.5s infinite;
+}
+.service-card-static .buy:hover{
+  transform:scale(1.025);
+  box-shadow:0 12px 28px rgba(115,92,255,.28);
+}
+@keyframes cardBorder{
+  0%,100%{background-position:0 0,0% 50%}
+  50%{background-position:0 0,100% 50%}
+}
+@keyframes orbMove{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-35px,35px) scale(1.18)}
+}
+@keyframes cardShine{
+  0%,45%{left:-120%}
+  70%,100%{left:150%}
+}
+@keyframes iconFloat{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-5px) rotate(2deg)}
+}
+@keyframes buttonGradient{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes buttonShine{
+  0%,45%{left:-80%}
+  65%,100%{left:145%}
+}
+@media(prefers-reduced-motion:reduce){
+  .service-card-static,.service-card-static:before,.service-card-static:after,
+  .service-card-static .icon,.service-card-static .buy,.service-card-static .buy:after{animation:none!important}
+}
+@keyframes dashOrb{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-35px,35px) scale(1.18)}}
+@keyframes dashShine{0%,42%{left:-120%}68%,100%{left:150%}}
+@keyframes miniFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.animated-dashboard-title{display:inline-block;background:linear-gradient(90deg,#08758b,#6d50df,#d63a9e,#08758b);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleGradient 4s linear infinite}
+@keyframes titleGradient{to{background-position:250% center}}
+
+/* Requested header fixes only */
+.navlinks a{color:#46536d!important;text-decoration:none!important}
+.navlinks a:hover{color:#6d4ee8!important}
+.navbtn{color:#25314b!important;background:#ffffff!important;border-color:#d8e2f2!important;cursor:pointer}
+.top-logo-link{
+  display:flex;align-items:center;justify-content:center;
+  width:42px;height:42px;margin-left:auto;margin-right:9px;
+  border-radius:12px;border:1px solid #d8e2f2;
+  background:#fff;box-shadow:0 7px 20px rgba(71,82,140,.10);
+  overflow:hidden;text-decoration:none;
+}
+.top-logo{width:34px;height:34px;object-fit:contain;border-radius:9px}
+.secondary{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:47px;background:#fff!important;color:#34415e!important;
+  border:1px solid #d6deeb!important;font-weight:700;
+  box-shadow:0 8px 20px rgba(71,82,140,.08);
+}
+.secondary:hover{color:#684ce1!important;border-color:#b9aaff!important}
+@media(max-width:560px){
+  .top-logo-link{width:38px;height:38px;margin-right:3px}
+  .top-logo{width:30px;height:30px}
+  .navbtn{font-size:12px;padding:9px 12px}
+}
+
+.retry-note{background:#fff4e8;border:1px solid #ffd19a;color:#9a5b00}
+.modalbox .secondary.full{color:#34415e!important;background:#fff!important;border:1px solid #d6deeb!important}
+</style>
+</head>
+<body>
+<header class="header"><div class="container nav">
+<div class="logo">✦ <span>Pro SMM Services</span></div>
+<nav class="navlinks"><a href="#services">Services</a><a href="#how">How it works</a><a href="#faq">FAQ</a></nav>
+<a class="top-logo-link" href="#" aria-label="Pro SMM Services logo">
+<img id="topLogo" class="top-logo" src="" alt="Logo">
+</a>
+<button class="navbtn" onclick="goServices()">Get Started</button>
+</div></header>
+
+<section class="hero"><div class="container hero-grid">
+<div>
+<span class="tag">⚡ FAST • SIMPLE • 24/7 ORDERS</span>
+<h1>Make your social presence <span class="gradient">stand out.</span></h1>
+<p>Affordable Instagram, YouTube, Telegram and Facebook promotion services. Select a package, enter your public target, pay the fixed amount and submit your UTR for secure server-side verification.</p>
+<div class="actions"><button class="primary" onclick="goServices()">Explore Services →</button><a class="secondary" href="#how">How To Order</a></div>
+</div>
+<div class="hero-panel">
+<div class="panel-head"><b class="animated-dashboard-title">PRO SMM DASHBOARD</b><span class="live">● LIVE</span></div>
+<div class="big-number">3100+</div><div class="muted">Trusted Costumers</div>
+<div class="mini"><div>Instagram<b>1895+</b><small>Costumers</small></div><div>YouTube<b>1154+</b><small>Costumers</small></div><div>Telegram<b>1548+</b><small>Costumers</small></div><div>Facebook<b>458+</b><small>Costumers</small></div></div>
+<div class="bar"><span></span></div><div class="muted">Order flow: Target → Payment → UTR verification</div>
+</div>
+</div></section>
 
 
-/* ===== INTERACTION UPDATE ===== */
-.wishlist-active{color:#e53935!important}
-.review-page{position:fixed;inset:0;background:#fff;z-index:90;display:none;overflow:auto;padding:18px 20px 40px}
-.review-page .review{padding:20px 0}
-.review-page-header{position:sticky;top:-18px;background:#fff;padding:16px 0;border-bottom:1px solid #ddd;margin-bottom:10px;display:flex;align-items:center;gap:15px;font-size:22px;font-weight:bold}
-.review-page-close{background:none;font-size:34px}
 
 
-.wishlist-active{color:#e53935!important}
-.wishlist-active .small{color:#e53935!important}
-.viewall{background:none;border:0;padding:18px 0 0;cursor:pointer}
+<section id="services" class="section services-section"><div class="container">
+<div class="section-head"><div><div class="eyebrow">OUR SERVICES</div><h2>All services</h2></div><p>Choose any platform and package. Every package has its own Buy Now button.</p></div>
+<div class="service-tabs">
+<button class="tab active" onclick="filterServices('all',this)">All Services</button>
+<button class="tab" onclick="filterServices('Instagram',this)">Instagram</button>
+<button class="tab" onclick="filterServices('YouTube',this)">YouTube</button>
+<button class="tab" onclick="filterServices('Telegram',this)">Telegram</button>
+<button class="tab" onclick="filterServices('Facebook',this)">Facebook</button>
+</div>
 
-/* ===== CHECKOUT FLOW ===== */
-.checkout-screen{position:fixed;inset:0;background:#f7f7fa;z-index:200;display:none;overflow-y:auto;font-family:Arial,sans-serif;color:#343844}
-.checkout-screen.active{display:block}
-.ck-head{height:64px;background:#fff;display:flex;align-items:center;gap:16px;padding:0 18px;border-bottom:1px solid #ddd;font-size:20px;font-weight:700;position:sticky;top:0;z-index:5}
-.ck-back{border:0;background:none;font-size:34px;line-height:1;color:#343844;padding:0 6px}
-.ck-step{margin-left:auto;color:#6b7b98;background:#eef2fa;border-radius:8px;padding:4px 8px;font-size:13px}
-.ck-progress{height:3px;background:#d7ddea}.ck-progress i{display:block;height:100%;background:#526fad;width:35%}
-.ck-wrap{padding:18px 20px 110px}
-.ck-card{background:#fff;border-radius:12px;padding:16px 18px;margin-bottom:16px;box-shadow:0 0 0 1px rgba(0,0,0,.03)}
-.ck-field{display:flex;flex-direction:column;gap:5px;margin-bottom:18px}
-.ck-field label{font-size:14px;color:#6d7180}
-.ck-field input,.ck-field textarea{border:0;border-bottom:1px solid #d7d7df;outline:0;padding:8px 0;font-size:17px;background:transparent;color:#252a35;width:100%;box-sizing:border-box}
-.ck-row{display:grid;grid-template-columns:1fr 1fr;gap:34px}
-.ck-fixed{background:#f8f8fb;color:#555;cursor:not-allowed}
-.ck-bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #ddd;padding:12px 20px;z-index:20;display:flex;gap:16px;align-items:center}
-.ck-bottom .total{font-weight:700;font-size:20px;flex:1}
-.ck-btn{border:0;background:#9b257e;color:#fff;padding:16px 20px;font-size:17px;font-weight:700;border-radius:3px;min-width:190px}
-.address-note{font-size:13px;color:#777;margin-top:4px}
-.order-product{display:flex;gap:14px;align-items:center}
-.order-product img{width:86px;height:100px;object-fit:cover;border-radius:8px;background:#eee;display:block;flex:none}
-.order-product .op-title{font-size:16px;font-weight:600;line-height:1.35}
-.order-product .op-price{font-size:20px;font-weight:700;margin-top:7px}
-.order-address{background:#fff;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:16px 20px;margin:0 -20px 14px}
-.order-address h3{margin:0 0 8px;font-size:18px}
-.order-address p{margin:5px 0;line-height:1.4}
-.change-address{float:right;border:1px solid #555;background:#fff;padding:9px 14px;font-weight:700;border-radius:3px}
-.discount-band{background:#e6f7f4;color:#187465;text-align:center;padding:10px;font-size:17px;font-weight:700;margin:-18px -20px 16px}
-.pay-option{background:#fff;border:1px solid #d7d7df;border-radius:10px;padding:16px;margin:12px 0;display:flex;align-items:center;gap:12px;cursor:pointer}
-.pay-option.disabled{opacity:.65;background:#fafafa}
-.pay-option.selected{border:2px solid #9b257e}
-.pay-radio{margin-left:auto;width:22px;height:22px;border:2px solid #666;border-radius:50%;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
-.pay-option.selected .pay-radio{border-color:#9b257e}.pay-option.selected .pay-radio:after{content:"";width:12px;height:12px;border-radius:50%;background:#9b257e}
+<div id="grid" class="services">
+
+<article class="card service-card-static" data-platform="Instagram">
+  <div class="service-head"><div class="icon" id="instagramIcon"></div><div><span class="platform">INSTAGRAM</span><h3>Instagram Growth</h3></div></div>
+  <p class="service-desc">Followers, likes & reel/video views</p>
+  <div class="offer"><div class="offerrow"><span>5,000 Followers</span><b class="price">₹29</b></div><button class="buy" onclick="orderStatic('Instagram','5,000 Followers','₹29')">Buy Now →</button>
+  <div class="offerrow"><span>10,000 Followers</span><b class="price">₹55</b></div><button class="buy" onclick="orderStatic('Instagram','10,000 Followers','₹55')">Buy Now →</button>
+  <div class="offerrow"><span>5,000 Likes</span><b class="price">₹25</b></div><button class="buy" onclick="orderStatic('Instagram','10,000 Likes','₹25')">Buy Now →</button>
+  <div class="offerrow"><span>10,000 Reel Views</span><b class="price">₹19</b></div><button class="buy" onclick="orderStatic('Instagram','50,000 Views','₹29')">Buy Now →</button></div>
+</article>
+
+<article class="card service-card-static" data-platform="YouTube">
+  <div class="service-head"><div class="icon" id="youtubeIcon"></div><div><span class="platform">YOUTUBE</span><h3>YouTube Growth</h3></div></div>
+  <p class="service-desc">Views, likes & channel promotion</p>
+  <div class="offer"><div class="offerrow"><span>1,000 Shorts Views</span><b class="price">₹19</b></div><button class="buy" onclick="orderStatic('YouTube','1,000 Views','₹19')">Buy Now →</button>
+  <div class="offerrow"><span>10,000 Views</span><b class="price">₹79</b></div><button class="buy" onclick="orderStatic('YouTube','10,000 Views','₹79')">Buy Now →</button>
 .pay-amount{font-size:21px;font-weight:700}
 .pay-sub{font-size:14px;color:#777;margin-top:3px}
 .qr-box{display:none;background:#fff;border:1px solid #e0d3dd;border-radius:12px;padding:18px;text-align:center;margin-top:14px}
