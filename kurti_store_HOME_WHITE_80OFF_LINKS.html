@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meesho</title>
+<style>
+:root{--pink:#9b257f;--green:#087b68;--dark:#363b46;--muted:#737887;--line:#e6e7ec;--bg:#f6f6f8}
+*{box-sizing:border-box}body{margin:0;background:#eef0f3;font-family:Arial,sans-serif;color:var(--dark)}button,input,textarea{font:inherit}button{cursor:pointer;border:0}
+.app{max-width:720px;margin:auto;background:#fff;min-height:100vh;padding-bottom:92px}.header{height:118px;display:flex;align-items:flex-end;padding:0 26px 22px;gap:28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:10}.back{margin-right:auto;background:none;font-size:46px}.navicon{font-size:32px;background:none}.location{padding:15px 26px;background:#f1f3fa;font-size:19px;font-weight:bold}
+.hero{height:560px;background:#eee center/cover no-repeat;position:relative}.morelike{position:absolute;right:22px;bottom:24px;background:#fff;padding:14px 20px;border-radius:30px;box-shadow:0 2px 10px #aaa;font-size:19px;font-weight:bold}.dots{height:40px;display:flex;justify-content:center;gap:10px;align-items:center}.dot{width:25px;height:5px;border-radius:9px;background:#e4e5e9}.dot.active{background:var(--pink)}
+.section{padding:25px 27px;border-top:7px solid var(--bg)}.similar-title{font-size:21px;margin-bottom:14px}.thumbs{display:flex;gap:13px;overflow:auto}.thumb{min-width:74px;height:98px;border-radius:10px;background:center/cover;border:2px solid transparent}.thumb.active{border-color:var(--pink)}
+.product-row{display:flex;align-items:center;gap:13px}.title{flex:1;font-size:25px;line-height:1.3}.iconblock{background:none;font-size:30px;text-align:center}.small{font-size:15px}.price{font-size:39px;font-weight:bold;margin:16px 0 8px}.strike{text-decoration:line-through;color:#777;font-size:21px;font-weight:normal}.off{font-size:20px;font-weight:normal}.discount{background:#e7f3ef;color:#247863;padding:8px;border-radius:4px;display:inline-block;font-size:18px}.special{color:#18705e;font-size:25px;margin:18px 0}.rating{display:inline-block;background:var(--green);color:#fff;padding:9px 13px;border-radius:22px;font-weight:bold}
+.perks{display:flex;border-radius:20px;background:linear-gradient(90deg,#f8eef6,#f5eff9);padding:12px}.perk{flex:1;padding:15px 8px;font-size:19px;font-weight:bold}.size-title{font-size:29px;font-weight:bold;margin-bottom:22px}.sizes{display:flex;gap:12px;flex-wrap:wrap}.size{min-width:95px;border:2px solid #42454c;border-radius:30px;padding:9px 18px;background:#fff;font-size:23px;font-weight:bold}.size.disabled{color:#c8cad1;border-color:#d6d8df;text-decoration:line-through}.size.selected{border-color:var(--pink);box-shadow:0 0 0 1px var(--pink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:25px;font-size:21px}.label{color:#777;margin-bottom:6px}.copy{float:right;color:#8e2678;font-size:18px}.review-summary{display:flex;gap:20px;align-items:center}.big-rating{font-size:50px;font-weight:bold;background:var(--green);color:#fff;padding:25px;border-radius:15px}.bar{height:8px;background:#ddd;border-radius:8px;overflow:hidden;flex:1}.fill{height:100%;background:var(--green);width:62%}.barrow{display:flex;gap:9px;align-items:center;margin:13px 0}.customer-media{display:flex;gap:10px;overflow:auto}.media{min-width:110px;height:110px;border-radius:12px;background:center/cover;position:relative}.media:after{content:none!important;display:none!important}
+.review{border-bottom:1px solid var(--line);padding:22px 0}.badge{display:inline-block;padding:8px 12px;border-radius:20px;background:var(--green);color:#fff;font-weight:bold}.review p{font-size:19px;line-height:1.5}.readmore{color:#8e2678;font-weight:bold;background:none;padding:0}.viewall{padding-top:20px;color:#8e2678;font-weight:bold}
+.people-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#ddd}.card{position:relative;background:#fff;padding-bottom:13px}.card img{width:100%;height:300px;object-fit:cover;display:block}.wish{position:absolute;right:12px;top:12px;border-radius:50%;width:48px;height:48px;background:#fff;font-size:27px}.card-info{padding:10px 13px}.card-price{font-size:23px;font-weight:bold}.outstock{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;color:#fff;font-size:23px;font-weight:bold}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,100%);padding:16px 28px;background:#fff;border-top:2px solid #ddd;z-index:30}.buy{width:100%;background:var(--pink);color:#fff;padding:19px;border-radius:6px;font-size:25px;font-weight:bold}
+
+.image-modal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:80;display:none;align-items:center;justify-content:center;padding:20px}.image-modal img{max-width:100%;max-height:85vh;object-fit:contain}.image-modal button{position:absolute;right:20px;top:15px;color:#fff;background:none;font-size:42px}
+@media(max-width:480px){.hero{height:430px}.header{height:105px;padding:0 17px 18px;gap:19px}.title{font-size:21px}.card img{height:245px}.size{min-width:84px;font-size:20px}.perk{font-size:15px}}
+
+/* ===== COMPACT MOBILE SIZE UPDATE ===== */
+body{font-size:15px}
+.app{max-width:600px}
+.header{height:92px;padding:0 18px 15px;gap:20px}
+.back{font-size:38px}.navicon{font-size:26px}
+.header{position:sticky}
+.meesho-logo{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:112px;height:32px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.meesho-logo svg{width:112px;height:32px;display:block}
+.header-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.header-actions .navicon{padding:0;min-width:28px}
+@media(max-width:480px){.meesho-logo{bottom:17px;width:100px}.meesho-logo svg{width:100px}.header-actions{gap:7px}.header-actions .navicon{font-size:24px}}
+.location{padding:11px 18px;font-size:15px}
+.hero{height:440px}.morelike{right:15px;bottom:18px;padding:10px 15px;font-size:15px}
+.dots{height:30px}.dot{width:18px;height:4px}
+.section{padding:18px 20px;border-top-width:5px}
+.similar-title{font-size:17px;margin-bottom:10px}
+.thumb{min-width:58px;height:78px;border-radius:8px}
+.title{font-size:19px}.iconblock{font-size:26px}.small{font-size:12px}
+.price{font-size:31px;margin:12px 0 6px}.strike{font-size:17px}.off{font-size:16px}
+.discount{font-size:15px;padding:6px}.special{font-size:20px;margin:14px 0}
+.rating{padding:7px 10px;font-size:14px}
+.perks{padding:9px;border-radius:14px}.perk{padding:10px 6px;font-size:14px}
+.size-title{font-size:24px;margin-bottom:16px}.sizes{gap:9px}
+.size{min-width:72px;padding:7px 14px;font-size:18px}
+.grid2{gap:18px;font-size:17px}.label{font-size:15px}
+.section h2{font-size:23px!important;margin:5px 0 18px}
+.big-rating{font-size:37px;padding:18px}.barrow{font-size:13px;margin:9px 0}
+.customer-media{gap:8px}.media{min-width:82px;height:82px;border-radius:9px}
+.review{padding:16px 0}.review p{font-size:15px;margin:10px 0}.badge{font-size:13px;padding:6px 9px}
+.card img{height:225px}.wish{width:38px;height:38px;font-size:22px;right:9px;top:9px}
+.card-info{padding:8px 10px}.card-price{font-size:18px}
+.outstock{font-size:18px}
+.bottom{padding:11px 18px}.buy{padding:15px;font-size:20px}
+.sheet{padding:22px 20px}.sheet-head{font-size:20px;margin-bottom:20px}.close{font-size:31px}
+.checkout-title{font-size:23px;margin:5px 0 18px}.field{padding:12px;font-size:16px}
+.payoption{padding:13px;font-size:15px}.total{padding:17px 0;font-size:21px}
+.qrbox img{width:190px;height:190px}
+@media(min-width:481px){.hero{height:500px}}
+
+
+/* ===== INTERACTION UPDATE ===== */
+.wishlist-active{color:#e53935!important}
+.review-page{position:fixed;inset:0;background:#fff;z-index:90;display:none;overflow:auto;padding:18px 20px 40px}
+.review-page .review{padding:20px 0}
+.review-page-header{position:sticky;top:-18px;background:#fff;padding:16px 0;border-bottom:1px solid #ddd;margin-bottom:10px;display:flex;align-items:center;gap:15px;font-size:22px;font-weight:bold}
+.review-page-close{background:none;font-size:34px}
+
+
+.wishlist-active{color:#e53935!important}
+.wishlist-active .small{color:#e53935!important}
+.viewall{background:none;border:0;padding:18px 0 0;cursor:pointer}
+
+/* ===== CHECKOUT FLOW ===== */
+.checkout-screen{position:fixed;inset:0;background:#f7f7fa;z-index:200;display:none;overflow-y:auto;font-family:Arial,sans-serif;color:#343844}
+.checkout-screen.active{display:block}
+.ck-head{height:64px;background:#fff;display:flex;align-items:center;gap:16px;padding:0 18px;border-bottom:1px solid #ddd;font-size:20px;font-weight:700;position:sticky;top:0;z-index:5}
+.ck-back{border:0;background:none;font-size:34px;line-height:1;color:#343844;padding:0 6px}
+.ck-step{margin-left:auto;color:#6b7b98;background:#eef2fa;border-radius:8px;padding:4px 8px;font-size:13px}
+.ck-progress{height:3px;background:#d7ddea}.ck-progress i{display:block;height:100%;background:#526fad;width:35%}
+.ck-wrap{padding:18px 20px 110px}
+.ck-card{background:#fff;border-radius:12px;padding:16px 18px;margin-bottom:16px;box-shadow:0 0 0 1px rgba(0,0,0,.03)}
+.ck-field{display:flex;flex-direction:column;gap:5px;margin-bottom:18px}
+.ck-field label{font-size:14px;color:#6d7180}
+.ck-field input,.ck-field textarea{border:0;border-bottom:1px solid #d7d7df;outline:0;padding:8px 0;font-size:17px;background:transparent;color:#252a35;width:100%;box-sizing:border-box}
+.ck-row{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.ck-fixed{background:#f8f8fb;color:#555;cursor:not-allowed}
+.ck-bottom{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #ddd;padding:12px 20px;z-index:20;display:flex;gap:16px;align-items:center}
+.ck-bottom .total{font-weight:700;font-size:20px;flex:1}
+.ck-btn{border:0;background:#9b257e;color:#fff;padding:16px 20px;font-size:17px;font-weight:700;border-radius:3px;min-width:190px}
+.address-note{font-size:13px;color:#777;margin-top:4px}
+.order-product{display:flex;gap:14px;align-items:center}
+.order-product img{width:86px;height:100px;object-fit:cover;border-radius:8px;background:#eee;display:block;flex:none}
+.order-product .op-title{font-size:16px;font-weight:600;line-height:1.35}
+.order-product .op-price{font-size:20px;font-weight:700;margin-top:7px}
+.order-address{background:#fff;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:16px 20px;margin:0 -20px 14px}
+.order-address h3{margin:0 0 8px;font-size:18px}
+.order-address p{margin:5px 0;line-height:1.4}
+.change-address{float:right;border:1px solid #555;background:#fff;padding:9px 14px;font-weight:700;border-radius:3px}
+.discount-band{background:#e6f7f4;color:#187465;text-align:center;padding:10px;font-size:17px;font-weight:700;margin:-18px -20px 16px}
+.pay-option{background:#fff;border:1px solid #d7d7df;border-radius:10px;padding:16px;margin:12px 0;display:flex;align-items:center;gap:12px;cursor:pointer}
+.pay-option.disabled{opacity:.65;background:#fafafa}
+.pay-option.selected{border:2px solid #9b257e}
+.pay-radio{margin-left:auto;width:22px;height:22px;border:2px solid #666;border-radius:50%;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+.pay-option.selected .pay-radio{border-color:#9b257e}.pay-option.selected .pay-radio:after{content:"";width:12px;height:12px;border-radius:50%;background:#9b257e}
+.pay-amount{font-size:21px;font-weight:700}
+.pay-sub{font-size:14px;color:#777;margin-top:3px}
+.qr-box{display:none;background:#fff;border:1px solid #e0d3dd;border-radius:12px;padding:18px;text-align:center;margin-top:14px}
+.qr-box.show{display:block}
+.qr-img{width:220px;height:220px;margin:10px auto;border:8px solid #fff;box-shadow:0 0 0 1px #ddd;display:block}
+.qr-caption{font-size:14px;color:#666;margin:8px 0}
+.upi-id{font-weight:700;word-break:break-all}
+.app-icons{display:flex;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.app-icon{width:52px;height:52px;border:1px solid #ddd;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:#fff}
+.cod-unavailable{font-size:13px;color:#a33;margin-top:5px;font-weight:600}
+.success-box{text-align:center;padding:50px 20px}.success-box .tick{font-size:70px;color:#14805f}.success-box h2{font-size:25px}
+@media(max-width:420px){.ck-head{height:58px;font-size:18px}.ck-wrap{padding:14px 12px 100px}.ck-card{padding:14px}.ck-row{gap:20px}.ck-btn{min-width:150px;padding:15px 12px}.order-address{margin-left:-12px;margin-right:-12px}.discount-band{margin-left:-12px;margin-right:-12px}.qr-img{width:190px;height:190px}}
+
+
+.app-payment-box{display:none;margin-top:10px;padding:14px;border:1px solid #ddd;border-radius:12px;background:#fff}
+.app-payment-box.show{display:block}
+.app-payment-title{font-weight:700;font-size:16px;margin-bottom:10px}
+.app-chooser{display:flex;flex-wrap:wrap;gap:8px}
+.app-choice{border:1px solid #d4d4d4;background:#fff;border-radius:9px;padding:10px 12px;font-weight:700;font-size:13px;cursor:pointer}
+.app-choice.selected{border-color:#9b237e;background:#f8eaf5;color:#8d1f74}
+.app-selected-text{font-size:13px;color:#666;margin:12px 0 10px}
+.app-continue-btn{width:100%;border:0;border-radius:7px;padding:13px;background:#9b237e;color:#fff;font-weight:700;font-size:16px}
+
+/* ===== WHITE SHOPPING HOME ===== */
+.home-page{display:block;background:#fff;min-height:100vh;padding-bottom:82px}
+.home-top{position:sticky;top:0;z-index:15;background:#fff;border-bottom:1px solid #eee;padding:12px 14px 10px}
+.home-nav{height:46px;display:flex;align-items:center;gap:12px}
+.home-menu{width:38px;height:38px;border:0;background:none;font-size:29px;line-height:1}
+.home-logo{font-size:34px;font-weight:800;color:#a62a91;letter-spacing:-1.8px;margin-right:auto}
+.home-icon{width:40px;height:40px;border:0;background:#fff;font-size:25px}
+.home-search{height:48px;border:1px solid #d9d9df;border-radius:10px;background:#f8f8fa;display:flex;align-items:center;padding:0 13px;gap:10px;margin-top:8px}
+.home-search span{font-size:25px;color:#70757d}.home-search input{border:0;outline:0;background:transparent;width:100%;font-size:16px;color:#222}
+.home-location{margin:0 14px;padding:13px 0;border-bottom:1px solid #eee;color:#555;font-size:14px}
+.home-section{padding:16px 14px 0}.home-title{font-size:22px;font-weight:800;color:#242424;margin-bottom:12px}
+.home-cats{display:flex;gap:9px;overflow:auto;padding-bottom:2px}.home-cats::-webkit-scrollbar{display:none}
+.cat-pill{border:1px solid #ddd;border-radius:22px;background:#fff;padding:9px 15px;white-space:nowrap;font-size:14px;font-weight:700}
+.home-banner{height:190px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(110deg,#fbe5f4,#fff2fb);display:flex;margin-bottom:13px;border:1px solid #f0dce9}
+.banner-copy{padding:22px 12px 12px 18px;width:52%;position:relative;z-index:2}.banner-copy .eyebrow{font-size:13px;font-weight:800;color:#8f287d}.banner-copy h1{font-size:29px;line-height:1.05;margin:7px 0;color:#29232b}.banner-copy p{font-size:14px;margin:8px 0;color:#555}.banner-price{font-size:21px;font-weight:900;color:#b1268e}.banner-btn{display:inline-block;margin-top:9px;background:#b1268e;color:#fff;border-radius:18px;padding:8px 16px;font-weight:800;font-size:13px}
+.banner-img{position:absolute;right:-8px;bottom:0;width:55%;height:100%;object-fit:cover;object-position:center top;mix-blend-mode:multiply}
+.offer-strip{display:flex;align-items:center;justify-content:center;background:#7d185e;color:#fff;border-radius:8px;padding:11px 8px;font-size:14px;font-weight:800;text-align:center;margin-bottom:13px}
+.home-perks{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #eee;border-radius:12px;padding:12px 5px;text-align:center}.home-perk{font-size:12px;font-weight:700;color:#444}.home-perk b{display:block;color:#a62a91;font-size:22px;margin-bottom:4px}
+.deals{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.timer{background:#fff4f9;border:1px solid #e8cddd;color:#a62a91;border-radius:7px;padding:8px 10px;font-size:14px;font-weight:900;letter-spacing:.3px}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.home-card{border:1px solid #ececf0;border-radius:10px;overflow:hidden;background:#fff;position:relative;cursor:pointer}.home-card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#f5f5f5}.home-heart{position:absolute;right:8px;top:8px;width:34px;height:34px;border:0;border-radius:50%;background:#fff;box-shadow:0 1px 6px #bbb;font-size:20px}.home-card-body{padding:9px}.home-card-title{font-size:13px;color:#444;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-card-price{font-size:18px;font-weight:900;margin-top:5px}.home-card-price del{font-size:12px;color:#888;font-weight:400;margin-left:4px}.home-rating{display:inline-block;background:#16844a;color:#fff;border-radius:4px;padding:3px 5px;font-size:11px;font-weight:800;margin-top:6px}.home-bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(720px,100%);height:68px;background:#fff;border-top:1px solid #ddd;z-index:80;display:grid;grid-template-columns:repeat(5,1fr);box-sizing:border-box}.home-bottom button{border:0;background:#fff;color:#777;font-size:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.home-bottom button span{font-size:24px;line-height:1}.home-bottom button.active{color:#b1268e;font-weight:800}.home-bottom .cart-count{position:absolute;background:#b1268e;color:#fff;font-size:10px;padding:2px 5px;border-radius:10px;margin-left:17px;margin-top:-16px}
+#productPage{display:none}.search-empty{padding:30px 10px;text-align:center;color:#777;font-size:15px;grid-column:1/-1}
+@media(max-width:480px){.home-logo{font-size:31px}.home-banner{height:175px}.banner-copy h1{font-size:25px}.banner-copy p{font-size:12px}.home-section{padding-left:12px;padding-right:12px}}
+
+</style>
+<style id="meesho-inspired-upgrade">
+:root{--brand:#9f2089;--ink:#252525;--line:#e9e9e9;--bg:#f7f7f7}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+.header{background:#fff;border-bottom:1px solid var(--line);padding:12px 14px!important}
+#hero{background-size:contain!important;background-repeat:no-repeat!important;background-color:#fff}
+#title{font-size:18px!important;line-height:1.35!important;font-weight:500!important}
+#price{font-size:28px!important;font-weight:700!important}
+.thumb,.size{border-radius:6px!important}
+#openCheckout{border-radius:4px!important;font-weight:700!important}
+.card{background:#fff!important;border:1px solid #eee!important;border-radius:8px!important;overflow:hidden}
+.card img{aspect-ratio:3/4;object-fit:cover}
+</style>
+<style id="home-exact-white-update">
+body{background:#fff!important}.home-page{background:#fff;min-height:100vh;color:#27272d;padding-bottom:78px}.home-top{position:sticky;top:0;z-index:15;background:#fff;border-bottom:1px solid #eee;padding:18px 16px 12px}.home-nav{height:70px;display:flex;align-items:center;gap:18px}.hello-wrap{display:flex;align-items:center;gap:12px;margin-right:auto}.hello-avatar{width:58px;height:58px;border-radius:50%;background:#fff1dc;display:flex;align-items:center;justify-content:center;font-size:30px;border:1px solid #f1dfc6}.hello-small{font-size:16px;color:#222}.hello-big{font-size:21px;font-weight:800;color:#202027;margin-top:2px}.home-icon{width:48px;height:48px;background:#fff;font-size:37px;color:#292934;line-height:1}.cart-home{position:relative;font-size:30px}.cart-home b{position:absolute;right:1px;top:-1px;background:#9f2089;color:#fff;font-size:11px;min-width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center}.home-search{height:55px;border:1.5px solid #d2d0da;border-radius:15px;background:#fff;display:flex;align-items:center;padding:0 14px;gap:11px;box-shadow:0 1px 2px #eee}.home-search span:first-child{font-size:34px;color:#a8a8ba}.home-search input{border:0;outline:0;background:transparent;width:100%;font-size:17px;color:#222}.home-search input::placeholder{color:#9696a8}.search-mic,.search-cam{font-size:25px!important;color:#a9a9bd!important}.home-quick{margin:14px 0 8px;padding:20px 13px;background:#fff1fa;border-top:1px solid #f5e2ef;border-bottom:1px solid #f5e2ef;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.quick-item{display:flex;align-items:center;justify-content:center;gap:8px;border-right:1px solid #ddd5dd;font-size:14px;line-height:1.35}.quick-item:last-child{border-right:0}.quick-icon{font-size:28px}.quick-item b{font-size:15px}.quick-item strong{font-size:16px}.home-categories-section{padding:10px 0 12px;border-bottom:1px solid #ddd}.category-scroll{display:flex;gap:24px;overflow-x:auto;padding:4px 16px}.category-scroll::-webkit-scrollbar{display:none}.round-cat{flex:0 0 82px;background:#fff;border:0;display:flex;flex-direction:column;align-items:center;gap:8px;color:#4a4a55}.round-cat span,.round-cat img{width:78px;height:78px;border-radius:50%;object-fit:cover;border:1px solid #eee;background:#fff}.round-cat span{display:flex;align-items:center;justify-content:center;background:#fff0f7;color:#a9218a;font-size:32px}.round-cat label{font-size:13px;white-space:nowrap;max-width:92px;overflow:hidden;text-overflow:ellipsis}.round-cat.active label{font-weight:800;color:#9f2089}.round-cat.active span{border:2px solid #f1cfe8}.home-filters{display:grid;grid-template-columns:repeat(4,1fr);height:58px;border-bottom:1px solid #ddd;background:#fff}.home-filters button{background:#fff;border:0;border-right:1px solid #ddd;color:#34343c;font-size:14px;display:flex;gap:6px;align-items:center;justify-content:center}.home-filters button:last-child{border-right:0}.home-offer{margin:16px 16px 12px;height:104px;border:2px solid #169b78;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:13px 16px;box-shadow:0 3px 9px #ddd}.offer-big{font-size:16px;color:#148b70;line-height:1.05}.offer-big strong{font-size:31px}.offer-sub{font-size:15px;color:#148b70;margin-left:7px}.applied{color:#148b70;font-weight:800;font-size:13px}.home-section{padding:8px 14px 20px}.home-title{font-size:22px;font-weight:800;color:#24242b;margin:10px 0 13px}.deals{display:flex;align-items:center;justify-content:space-between;margin:4px 0 18px}.timer{background:#fff5fa;border:1px solid #e4c8dc;color:#a02188;border-radius:8px;padding:8px 9px;font-size:13px;font-weight:900}.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#ddd}.home-card{border:0;border-radius:0;overflow:hidden;background:#fff;position:relative;cursor:pointer}.home-card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#f5f5f5}.home-heart{position:absolute;right:9px;top:9px;width:39px;height:39px;border:0;border-radius:50%;background:#fff;box-shadow:0 1px 6px #bbb;font-size:24px;color:#333}.home-card-body{padding:10px 10px 13px}.home-card-title{font-size:13px;color:#444;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-card-price{font-size:20px;font-weight:900;margin-top:6px}.home-card-price del{font-size:12px;color:#888;font-weight:400;margin-left:4px}.home-rating{display:inline-block;background:#18864b;color:#fff;border-radius:4px;padding:4px 6px;font-size:11px;font-weight:800;margin-top:7px}.home-bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(720px,100%);height:72px;background:#fff;border-top:1px solid #ccc;z-index:80;display:grid;grid-template-columns:repeat(5,1fr)}.home-bottom button{border:0;background:#fff;color:#6e6e76;font-size:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.home-bottom button span{font-size:25px;line-height:1}.home-bottom button.active{color:#a3218c;font-weight:800}.home-products-section{padding-bottom:100px}@media(max-width:480px){.home-top{padding-left:12px;padding-right:12px}.quick-item{font-size:12px}.quick-item strong{font-size:14px}.quick-icon{font-size:24px}.category-scroll{gap:18px}.home-offer{margin-left:12px;margin-right:12px}.home-section{padding-left:12px;padding-right:12px}}
+.home-linked-image{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit}.home-quick:has(.home-linked-image),.home-offer:has(.home-linked-image){padding:0;overflow:hidden}.home-filters:has(.home-linked-image){height:auto;overflow:hidden}.home-filters:has(.home-linked-image) .home-linked-image{min-height:58px;object-fit:cover}
+</style>
+</head>
+<body>
+<!-- HOME PAGE -->
+<div class="home-page" id="homePage">
+  <div class="home-top">
+    <div class="home-nav">
+      <div class="hello-wrap"><div class="hello-avatar">🙏</div><div><div class="hello-small">Hello,</div><div class="hello-big">Let's shop!</div></div></div>
+      <button class="home-icon" aria-label="Wishlist" onclick="toggleWishlist(this)">♡</button>
+      <button class="home-icon cart-home" aria-label="Cart" onclick="alert('Your cart is ready. Add products from the product page.')">🛒<b>0</b></button>
+    </div>
+    <div class="home-search"><span>⌕</span><input id="homeSearch" placeholder="Search by Keyword or Product ID" oninput="filterHome(this.value)"><span class="search-mic">♩</span><span class="search-cam">▣</span></div>
+  </div>
+
+  <section class="home-quick" id="homeQuickImage" onclick="openHomeLink('quick')">
+    <div class="quick-item"><span class="quick-icon">📦</span><div><b>7 Days</b><br><strong>Easy Return</strong></div></div>
+    <div class="quick-item"><span class="quick-icon">💵</span><div><b>Cash on</b><br><strong>Delivery</strong></div></div>
+    <div class="quick-item"><span class="quick-icon">🏷️</span><div><b>Lowest</b><br><strong>Price</strong></div></div>
+  </section>
+
+  <section class="home-categories-section">
+    <div class="category-scroll">
+      <button class="round-cat active" onclick="filterHome('')"><span>▦</span><label>All Kurtis</label></button>
+      <button class="round-cat" onclick="filterHome('printed')"><img src="https://images.meesho.com/images/products/973433161/kucbi_512.avif?width=512"><label>Printed Kurtis</label></button>
+      <button class="round-cat" onclick="filterHome('rayon')"><img src="https://images.meesho.com/images/products/521893927/yvi7k_512.avif?width=512"><label>Rayon Kurtis</label></button>
+      <button class="round-cat" onclick="filterHome('combo')"><img src="https://images.meesho.com/images/products/973433161/kucbi_512.avif?width=512"><label>Combo Kurtis</label></button>
+      <button class="round-cat" onclick="filterHome('party')"><img src="https://images.meesho.com/images/products/433335002/mxofv_512.avif?width=512"><label>Party Wear</label></button>
+      <button class="round-cat" onclick="filterHome('daily')"><img src="https://images.meesho.com/images/products/519351044/z3lly_512.avif?width=512"><label>Daily Wear</label></button>
+    </div>
+  </section>
+
+  <div class="home-filters" id="homeFiltersImage" onclick="openHomeLink('filters')">
+    <button onclick="event.stopPropagation(); if(!openHomeLink('sort')) sortHome('default')">↕ <b>Sort</b></button>
+    <button onclick="event.stopPropagation(); if(!openHomeLink('category')) filterHome('')"><b>Category</b>⌄</button>
+    <button onclick="event.stopPropagation(); if(!openHomeLink('gender')) filterHome('women')"><b>Women</b>⌄</button>
+    <button onclick="event.stopPropagation(); if(!openHomeLink('filter')) alert('Filters: Price • Size • Fabric • Print')">≡ <b>Filters</b></button>
+  </div>
+
+  <section class="home-offer" id="homeOfferImage" onclick="openHomeLink('offer')">
+    <div><span class="offer-big">Upto<br><strong>80% OFF</strong></span><span class="offer-sub">on Kurtis</span></div>
+    <span class="applied">SPECIAL DEAL ✓</span>
+  </section>
+
+  <section class="home-section home-products-section">
+    <div class="deals"><div class="home-title" style="margin:0">Daily Deals ⚡</div><div class="timer" id="homeTimer">00h : 14m : 59s</div></div>
+    <div class="home-title">Products For You</div>
+    <div class="home-grid" id="homeGrid"></div>
+  </section>
+</div>
+
+<div class="home-bottom" id="homeBottom">
+  <button class="active" onclick="goHome()"><span>⌂</span>Home</button>
+  <button onclick="filterHome('')"><span>▦</span>Kurtis</button>
+  <button onclick="alert('My Orders will appear here after an order is placed.')"><span>◇</span>My Orders</button>
+  <button onclick="alert('Help & Support')"><span>◌</span>Help</button>
+  <button onclick="alert('Account')"><span>♙</span>Account</button>
+</div>
+
+<div id="productPage">
+<div class="app">
+<header class="header">
+  <button class="back" onclick="goHome()">‹</button>
+  <div class="meesho-logo" aria-label="Meesho">
+    <svg viewBox="0 0 150 42" role="img" aria-label="meesho">
+      <text x="0" y="30" font-family="Nunito Sans, sans-serif" font-size="31" font-weight="700" fill="#9b257f">Meesho</text>
+    </svg>
+  </div>
+  <div class="header-actions">
+    <button class="navicon" aria-label="Search">⌕</button>
+    <button class="navicon wishlist-btn" aria-label="Wishlist" onclick="toggleWishlist(this)">♡</button>
+    <button class="navicon" aria-label="Cart">🛒</button>
+  </div>
+</header>
+<div class="location">📍 Add delivery location to get extra discount ❯❯</div>
+<div class="hero" id="hero"><div class="morelike">▣ More Like This</div></div><div class="dots"><i class="dot active"></i><i class="dot"></i><i class="dot"></i></div>
+
+<section class="section"><div class="similar-title">6 Similar Products</div><div class="thumbs" id="thumbs"></div></section>
+<section class="section">
+<div class="product-row"><div class="title" id="title"></div><button class="iconblock wishlist-btn" onclick="toggleWishlist(this)">♡<div class="small">Wishlist</div></button><button class="iconblock" onclick="shareProduct()">⌯<div class="small">Share</div></button></div>
+<div class="price" id="price"></div><span class="discount">Discount Applied ✓</span><div class="special" id="special"></div><span class="rating">4.3 ★</span> <span style="color:#737887;font-size:20px">(23,415)</span>
+</section>
+<section class="section"><div class="perks"><div class="perk">📦 7 Days<br>Easy Return</div><div class="perk">💵 Cash on<br>Delivery</div><div class="perk">🏷 Lowest<br>Price</div></div></section>
+<section class="section"><div class="size-title">Select Size</div><div class="sizes main-sizes"></div></section>
+<section class="section"><h2>Product Highlights <span class="copy">COPY</span></h2><div class="grid2"><div><div class="label">Color</div>White</div><div><div class="label">Fabric</div>Rayon</div><div><div class="label">Fit / Shape</div>Kashmiri</div><div><div class="label">Length</div>Above Knee</div></div><h2 style="margin-top:40px">Additional Details <span style="float:right">⌄</span></h2></section>
+<section class="section"><h2 style="font-size:28px">Customer Ratings & Reviews</h2><div class="review-summary"><div class="big-rating">4.3 ★</div><div style="flex:1"><div class="barrow">Excellent<div class="bar"><div class="fill"></div></div>13,645</div><div class="barrow">Very Good<div class="bar"><div class="fill" style="width:38%"></div></div>5,929</div></div></div></section>
+<section class="section"><h2>Real images and videos from customers</h2><div class="customer-media" id="customerMedia"></div><div class="review"><span class="badge">5 ★ Excellent</span><p><span class="short">Its beautiful 😍 fab 👌 perfect fit 👌</span><span class="full" hidden>Its beautiful 😍 fab 👌 perfect fit 👌 😍 ❤️ best for summer ☀️ grab it 😀 👌 😄 😊 thanku seller and team 💓 💖 💗</span> <button class="readmore">Read More</button></p><div>− Madhumita Anand</div><p>♡ Helpful (36)</p></div><div class="review"><span class="badge">5 ★ Excellent</span><p><span class="short">Quality best and ye parcel valmo</span><span class="full" hidden> Quality best and ye parcel volum curious se nh aya he ishliye mujhe jaldi Mila he .</span> <button class="readmore">Read More</button></p><div>− Isha J</div><p>♡ Helpful (58)</p></div><button class="viewall" onclick="openAllReviews()">VIEW ALL REVIEWS ❯</button></section>
+<section class="section" style="padding-left:0;padding-right:0"><h2 style="padding:0 27px;font-size:29px">PEOPLE ALSO VIEWED</h2><div class="people-grid" id="people"></div></section>
+</div>
+<div class="bottom"><button class="buy" id="openCheckout">❯❯ Buy at ₹99</button></div>
+</div>
+</div>
+<div class="review-page" id="reviewPage">
+  <div class="review-page-header">
+    <button class="review-page-close" onclick="closeAllReviews()">‹</button>
+    <span>All Reviews</span>
+  </div>
+  <h2 style="font-size:24px">Customer Reviews</h2>
+  <div class="review"><span class="badge">5 ★ Excellent</span><p>Its beautiful 😍 fab 👌 perfect fit 👌 😍 ❤️ best for summer ☀️ grab it 😀 👌 😄 😊 thanku seller and team 💓 💖 💗.</p><div>− Madhumita Anand</div><p>♡ Helpful (36)</p></div>
+  <div class="review"><span class="badge">5 ★ Excellent</span><p>Quality best and ye parcel volum curious se nh aya he ishliye mujhe jaldi Mila he .</p><div>− Isha J</div><p>♡ Helpful (58)</p></div>
+  <div class="review"><span class="badge">4 ★ Very Good</span><p>Good product for the price. Delivery was on time and the size was as expected.</p><div>− Priya Sharma</div><p>♡ Helpful (24)</p></div>
+  <div class="review"><span class="badge">5 ★ Excellent</span><p>Nice but it is loose to me by the way it is tooo good and the fabric is fabulous 😍 🤩.</p><div>− Shanu Joshi</div><p>♡ Helpful (19)</p></div>
+  <div class="review"><span class="badge">4 ★ Very Good</span><p>Bhut acchi kurti hai mujhe pasand aayi or iska kapda bhi kafi accha hai colour bhi accha hai aap log ise mangwa sakte hai bahut accha hai .</p><div>− Madhu</div><p>♡ Helpful (11)</p></div>
+</div>
+
+<div class="image-modal" id="imageModal"><button onclick="document.getElementById('imageModal').style.display='none'">×</button><img id="modalImg"></div>
+
+<script>
+/* ================= PRODUCT SETTINGS =================
+   Put your own direct image URLs here. You can replace every image string.
+*/
+const products=[
+ {id:1,title:'Women Stylish Rayon Printed Kurti Combo Pack of 2',price:99,old:299,image:'https://images.meesho.com/images/products/973433161/kucbi_512.avif?width=512',gallery:['https://images.meesho.com/images/products/973433161/kucbi_512.avif?width=512','https://images.meesho.com/images/products/659350202/mfdbw_512.avif?width=512','https://images.meesho.com/images/products/948827966/1ndav_512.avif?width=512'],sizes:{XXS:99,XS:99,S:99,M:99,L:99,XL:99,XXL:99},disabled:['XXS']},
+ {id:2,title:'Elegant Floral Rayon Kurti For Women',price:99,old:299,image:'https://images.meesho.com/images/products/521893927/yvi7k_512.avif?width=512',gallery:['https://images.meesho.com/images/products/521893927/yvi7k_512.avif?width=512','https://images.meesho.com/images/products/507398439/gv9it_512.avif?width=512'],sizes:{S:99,M:99,L:99,XL:99},disabled:[]},
+ {id:3,title:'Stylish Printed Rayon Kurti for Women',price:79,old:199,image:'https://images.meesho.com/images/products/433335002/mxofv_512.avif?width=512',gallery:['https://images.meesho.com/images/products/433335002/mxofv_512.avif?width=512'],sizes:{S:79,M:79,L:79,XL:79},disabled:[]},
+ {id:4,title:'Women Casual Printed Short Kurti',price:79,old:199,image:'https://images.meesho.com/images/products/538426461/7fkkv_512.avif?width=512',gallery:['https://images.meesho.com/images/products/538426461/7fkkv_512.avif?width=512'],sizes:{S:79,M:79,L:79,XL:79},disabled:[]},
+ {id:5,title:'Trendy Rayon Kurti for Women',price:99,old:199,image:'https://images.meesho.com/images/products/942272746/183cl_512.avif?width=512',gallery:['https://images.meesho.com/images/products/942272746/183cl_512.avif?width=512'],sizes:{S:79,M:79,L:79,XL:79},disabled:[]},
+ {id:6,title:'New Stylish Printed Kurti for Women',price:79,old:199,image:'https://images.meesho.com/images/products/519351044/z3lly_512.avif?width=512',gallery:['https://images.meesho.com/images/products/519351044/z3lly_512.avif?width=512'],sizes:{S:79,M:79,L:79,XL:79},disabled:[]}
+];
+const otherImages=[
+'https://images.meesho.com/images/products/417434828/p4z2q_512.avif?width=512',
+'https://images.meesho.com/images/products/538426461/7fkkv_512.avif?width=512',
+'https://images.meesho.com/images/products/648245969/qon6w_512.avif?width=512',
+'https://images.meesho.com/images/products/519351044/z3lly_512.avif?width=512'
+];
+const reviewImages=['https://images.meesho.com/images/ratings_reviews/8124569557/8164799143/8124569557_8164799143_830f8b8edc6ff.avif?width=512','https://images.meesho.com/images/ratings_reviews/8124569557/8164799143/8124569557_8164799143_8893524bf0bb3.avif?width=512','https://images.meesho.com/images/ratings_reviews/7374107244/7411392807/7374107244_7411392807_cf029c13d3de9.avif?width=512','https://images.meesho.com/images/ratings_reviews/8627870996/8670620240/8627870996_8670620240_358e82b665c34.avif?width=128','https://images.meesho.com/images/ratings_reviews/8124569557/8164799143/8124569557_8164799143_8893524bf0bb3.avif?width=512','https://images.meesho.com/images/ratings_reviews/8710180015/8753354473/8710180015_8753354473_6f88d74c38b85.avif?width=128','https://images.meesho.com/images/ratings_reviews/8629067601/8671820864/8629067601_8671820864_aa43ca3d6500f.avif?width=128','https://images.meesho.com/images/ratings_reviews/8627870996/8670620240/8627870996_8670620240_baadf668f8bb7.avif?width=512','https://images.meesho.com/images/ratings_reviews/8266530816/8307456803/8266530816_8307456803_8baa2b4cf996c.avif?width=128'];
+const UPI_ID='bestsmmhg@naviaxis'; // <-- replace with your UPI ID
+const DEMO_UPI_ID=UPI_ID;
+
+/* ================= HOME CLICK + IMAGE LINK SETTINGS =================
+   Add your own links here. Leave '' if you don't want a link.
+   If you have an image URL for any section, paste it in HOME_IMAGE_URLS.
+*/
+const HOME_LINKS={
+  quick:'',       // 7 Days / COD / Lowest Price strip
+  filters:'',     // Sort / Category / Women / Filters row
+  offer:'',       // 80% OFF offer banner
+  sort:'', category:'', gender:'', filter:''
+};
+const HOME_IMAGE_URLS={
+  quick:'',       // optional image URL for the 3-perks strip
+  filters:'',     // optional image URL for Sort/Category/Women/Filters strip
+  offer:''        // optional image URL for the offer banner
+};
+function openHomeLink(key){
+  const url=(HOME_LINKS[key]||'').trim();
+  if(url){ window.location.href=url; return true; }
+  return false;
+}
+function applyHomeLinkedImages(){
+  const map=[['quick','homeQuickImage'],['filters','homeFiltersImage'],['offer','homeOfferImage']];
+  map.forEach(([key,id])=>{
+    const url=(HOME_IMAGE_URLS[key]||'').trim();
+    if(!url)return;
+    const el=document.getElementById(id);
+    if(el){el.innerHTML=`<img src="${url}" alt="" class="home-linked-image">`;el.onclick=()=>openHomeLink(key);el.style.cursor=HOME_LINKS[key]?'pointer':'default';}
+  });
+}
+
+
+let current=products[0],selectedSize='XS';
+function money(n){return '₹'+n}
+function currentPrice(){return current.sizes[selectedSize]||current.price}
+function renderProduct(){
+ document.getElementById('hero').style.backgroundImage=`url("${current.image}")`;
+ document.getElementById('title').textContent=current.title;
+ document.getElementById('price').innerHTML=`${money(current.price)} <span class="strike">${current.old}</span> <span class="off">${Math.round((1-current.price/current.old)*100)}% off onwards</span>`;
+ document.getElementById('special').textContent=`${money(Math.round(current.price*.79))} with 1 Special Offer ›`;
+ document.getElementById('openCheckout').textContent='❯❯ Buy at '+money(currentPrice());
+ document.getElementById('thumbs').innerHTML=current.gallery.map((u,i)=>`<button class="thumb ${i===0?'active':''}" style="background-image:url('${u}')" onclick="changeHero('${u}',this)"></button>`).join('');
+ selectedSize=Object.keys(current.sizes).find(s=>!current.disabled.includes(s))||Object.keys(current.sizes)[0];
+ renderSizes();
+}
+function changeHero(url,el){document.getElementById('hero').style.backgroundImage=`url("${url}")`;document.querySelectorAll('.thumb').forEach(x=>x.classList.remove('active'));el.classList.add('active')}
+function renderSizes(){document.querySelectorAll('.main-sizes,.sheet-sizes').forEach(box=>{box.innerHTML='';Object.entries(current.sizes).forEach(([name,p])=>{let disabled=current.disabled.includes(name);box.innerHTML+=`<button class="size ${disabled?'disabled':''} ${selectedSize===name?'selected':''}" ${disabled?'disabled':''} onclick="selectSize('${name}')">${name}<div style="font-size:14px;margin-top:3px">${money(p)}</div></button>`})});const sheetPrice=document.getElementById('sheetPrice'); if(sheetPrice) sheetPrice.textContent=money(currentPrice())}
+function selectSize(s){selectedSize=s;renderSizes();document.getElementById('openCheckout').textContent='❯❯ Buy at '+money(currentPrice())}
+document.querySelectorAll('.readmore').forEach(b=>b.onclick=()=>{let full=b.parentElement.querySelector('.full');let short=b.parentElement.querySelector('.short');let open=full.hidden;full.hidden=!open;short.hidden=open;b.textContent=open?'Read Less':'Read More'});
+document.getElementById('customerMedia').innerHTML=reviewImages.map(u=>`<button class="media" style="background-image:url('${u}')" onclick="openImage('${u}')"></button>`).join('');
+function openImage(u){document.getElementById('modalImg').src=u;document.getElementById('imageModal').style.display='flex'}
+function renderPeople(){
+  let cards=products;
+  document.getElementById('people').innerHTML=cards.map(p=>`<div class="card" onclick="openProduct(${p.id})" style="cursor:pointer">
+    <img src="${p.image}" alt="${p.title}">
+    <button class="wish wishlist-btn" onclick="event.stopPropagation();toggleWishlist(this)">♡</button>
+    <div class="card-info">
+      <div class="card-price">${money(p.price)} <span style="font-size:15px;color:#777;text-decoration:line-through">${p.old}</span> <span style="font-size:14px;font-weight:normal">${Math.round((1-p.price/p.old)*100)}% off</span></div>
+      <div style="margin-top:8px"><span class="rating" style="font-size:15px;padding:6px 9px">4.2 ★</span> (6,813)</div>
+    </div>
+  </div>`).join('');
+}
+function openProduct(id){
+  window.location.hash='product-'+id;
+}
+
+function toggleWishlist(btn){
+  const active=btn.classList.toggle('wishlist-active');
+  const textNode=Array.from(btn.childNodes).find(n=>n.nodeType===Node.TEXT_NODE && n.textContent.trim());
+  if(textNode) textNode.textContent=active?'♥':'♡';
+  btn.style.color=active?'#e53935':'';
+}
+async function shareProduct(){
+  const text=`Check out ${current.title} for ${money(currentPrice())}`;
+  const url=window.location.href;
+  try{
+    if(navigator.share) await navigator.share({title:current.title,text,url});
+    else if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(`${text}\n${url}`);
+      alert('Product link copied! 📋');
+    }else prompt('Copy this product link:',url);
+  }catch(e){}
+}
+function openAllReviews(){document.getElementById('reviewPage').style.display='block';document.body.style.overflow='hidden'}
+function closeAllReviews(){document.getElementById('reviewPage').style.display='none';document.body.style.overflow=''}
+
+
+function renderHomeProducts(list=products){
+  const grid=document.getElementById('homeGrid');
+  if(!list.length){grid.innerHTML='<div class="search-empty">No products found. Try another search.</div>';return;}
+  grid.innerHTML=list.map(p=>`<div class="home-card" onclick="openProduct(${p.id})">
+    <img src="${p.image}" alt="${p.title}">
+    <button class="home-heart" onclick="event.stopPropagation();toggleWishlist(this)">♡</button>
+    <div class="home-card-body"><div class="home-card-title">${p.title}</div><div class="home-card-price">₹${p.price} <del>₹${p.old}</del></div><span class="home-rating">4.2 ★</span> <span style="font-size:11px;color:#777">6,813</span></div>
+  </div>`).join('');
+}
+function filterHome(q){
+  q=(q||'').toLowerCase().trim();
+  renderHomeProducts(!q?products:products.filter(p=>{const t=(p.title+' '+JSON.stringify(p)).toLowerCase(); if(q==='women'||q==='kurti')return true; return t.includes(q);}));
+  goHome(false);
+}
+function sortHome(mode){
+  let list=[...products];
+  if(mode==='priceLow')list.sort((a,b)=>a.price-b.price);
+  else if(mode==='priceHigh')list.sort((a,b)=>b.price-a.price);
+  renderHomeProducts(list); goHome(false);
+}
+function goHome(updateHash=true){
+  if(updateHash && location.hash!=='') history.pushState({},'',location.pathname+location.search);
+  document.getElementById('homePage').style.display='block';
+  document.getElementById('productPage').style.display='none';
+  document.getElementById('homeBottom').style.display='grid';
+  document.querySelector('.bottom').style.display='none';
+  window.scrollTo(0,0);
+}
+function showProductPage(){
+  document.getElementById('homePage').style.display='none';
+  document.getElementById('productPage').style.display='block';
+  document.getElementById('homeBottom').style.display='none';
+  document.querySelector('.bottom').style.display='block';
+}
+function routePage(){
+  const m=location.hash.match(/^#product-(\d+)$/);
+  if(m){
+    const found=products.find(p=>p.id===Number(m[1]));
+    if(found){current=found;selectedSize=Object.keys(found.sizes).find(s=>!found.disabled.includes(s))||Object.keys(found.sizes)[0];renderProduct();renderPeople();showProductPage();window.scrollTo(0,0);return;}
+  }
+  goHome(false);
+}
+window.addEventListener('hashchange',routePage);
+window.addEventListener('popstate',routePage);
+(function startHome(){applyHomeLinkedImages();renderHomeProducts(products);document.querySelector('.bottom').style.display='none';routePage();})();
+let dealSeconds=899;setInterval(()=>{if(dealSeconds>0)dealSeconds--;let h=String(Math.floor(dealSeconds/3600)).padStart(2,'0'),m=String(Math.floor((dealSeconds%3600)/60)).padStart(2,'0'),s=String(dealSeconds%60).padStart(2,'0');const el=document.getElementById('homeTimer');if(el)el.textContent=`${h}h : ${m}m : ${s}s`;},1000);
+
+</script>
+
+<!-- CHECKOUT: ADDRESS -->
+<div class="checkout-screen" id="addressScreen">
+  <div class="ck-head"><button class="ck-back" onclick="closeCheckout()">‹</button><span>ADD DELIVERY ADDRESS</span><span class="ck-step">STEP 1/2</span></div>
+  <div class="ck-progress"><i></i></div>
+  <div class="ck-wrap">
+    <div class="ck-card">
+      <div class="ck-row">
+        <div class="ck-field"><label>Name *</label><input id="addrName" placeholder="Enter your name"></div>
+        <div class="ck-field"><label>Contact Number *</label><input id="addrPhone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile number"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ck-bottom"><div class="total">₹<span class="checkoutPrice">118</span></div><button class="ck-btn" onclick="saveAddressStep()">Next</button></div>
+</div>
+
+<!-- ADDRESS DETAILS -->
+<div class="checkout-screen" id="addressDetailsScreen">
+  <div class="ck-head"><button class="ck-back" onclick="backToAddress()">‹</button><span>ADD DELIVERY ADDRESS</span><span class="ck-step">STEP 1/2</span></div>
+  <div class="ck-progress"><i></i></div>
+  <div class="ck-wrap">
+    <div class="ck-card">
+      <div class="ck-field"><label>Pincode *</label><input id="addrPin" inputmode="numeric" maxlength="6" placeholder="Enter pincode"></div>
+      <div class="ck-row">
+        <div class="ck-field"><label>City *</label><input id="addrCity" placeholder="Enter city"></div>
+        <div class="ck-field"><label>State *</label><input id="addrState" placeholder="Enter state"></div>
+      </div>
+      <div class="ck-field"><label>House no. / Building Name *</label><input id="addrHouse" placeholder="House / Building name"></div>
+      <div class="ck-field"><label>Road Name / Area / Colony *</label><textarea id="addrRoad" rows="2" placeholder="Area, colony, road"></textarea></div>
+    </div>
+  </div>
+  <div class="ck-bottom"><div class="total">₹<span class="checkoutPrice">118</span></div><button class="ck-btn" onclick="saveAddressAndReview()">Save Address and Continue</button></div>
+</div>
+
+<!-- REVIEW ORDER -->
+<div class="checkout-screen" id="reviewScreen">
+  <div class="ck-head"><button class="ck-back" onclick="showScreen('addressDetailsScreen')">‹</button><span>REVIEW YOUR ORDER</span><span class="ck-step">STEP 1/2</span></div>
+  <div class="ck-wrap">
+    <div class="discount-band">₹24 OFF on this order</div>
+    <div class="ck-card order-product">
+      <img id="reviewProductImage" class="checkout-product-image review-product-image" alt="Product image">
+      <div><div class="op-title" id="reviewProductTitle">Product</div><div class="op-price">₹<span class="checkoutPrice">118</span></div><div class="pay-sub" id="reviewSize">Size: Selected · Qty: 1</div></div>
+    </div>
+    <div class="order-address">
+      <button class="change-address" onclick="showScreen('addressDetailsScreen')">Change</button>
+      <h3> Delivery Details</h3>
+      <p><b id="reviewName"></b> · <span id="reviewPhone"></span></p>
+      <p id="reviewAddress"></p>
+    </div>
+    <div class="ck-card"><b>Price Details</b><div style="float:right;font-size:19px">₹<span class="checkoutPrice">118</span></div></div>
+  </div>
+  <div class="ck-bottom"><div class="total">₹<span class="checkoutPrice">118</span></div><button class="ck-btn" onclick="openPayment()">Continue</button></div>
+</div>
+
+<!-- PAYMENT -->
+<div class="checkout-screen" id="paymentScreen">
+  <div class="ck-head"><button class="ck-back" onclick="showScreen('reviewScreen')">‹</button><span>PAYMENT METHOD</span><span class="ck-step">STEP 2/2</span></div>
+  <div class="ck-wrap">
+    <div class="discount-band">Secure payment for your order</div>
+    <h3 style="margin:12px 0 16px">Select payment method</h3>
+    <div class="pay-option disabled" id="codOption">
+      <div><div class="pay-amount">₹<span class="checkoutPrice">118</span> · Cash on Delivery</div><div class="cod-unavailable">COD is not available for this order</div></div>
+      <div class="pay-radio"></div>
+    </div>
+    <div class="pay-option selected" id="upiOption" onclick="selectUPI()">
+      <div><div class="pay-amount">₹<span class="checkoutPrice">118</span> · Pay Online</div><div class="pay-sub">Scan QR and pay the exact order amount using any UPI app</div></div>
+      <div class="pay-radio"></div>
+    </div>
+    <div class="qr-box show" id="qrBox">
+      <div style="font-weight:700;font-size:18px">Scan & Pay ₹<span class="checkoutPrice">118</span></div>
+      <img class="qr-img" id="upiQr" alt="UPI payment QR code">
+      <div class="qr-caption">Open any UPI app and scan this QR code</div>
+      <div class="upi-id" id="upiIdText">bestsmmhg@naviaxis</div>
+    </div>
+
+    <div class="pay-option" id="appPayOption" onclick="selectAppPayment()">
+      <div>
+        <div class="pay-amount">₹<span class="checkoutPrice">118</span> · Pay using UPI App</div>
+        <div class="pay-sub">Choose an app and continue to pay the exact amount</div>
+      </div>
+      <div class="pay-radio"></div>
+    </div>
+
+    <div class="app-payment-box" id="appPaymentBox">
+      <div class="app-payment-title">Choose payment app</div>
+      <div class="app-chooser">
+        <button type="button" class="app-choice" data-app="gpay" onclick="choosePaymentApp('gpay', this)">GPay</button>
+        <button type="button" class="app-choice" data-app="phonepe" onclick="choosePaymentApp('phonepe', this)">PhonePe</button>
+        <button type="button" class="app-choice" data-app="paytm" onclick="choosePaymentApp('paytm', this)">Paytm</button>
+        <button type="button" class="app-choice" data-app="bhim" onclick="choosePaymentApp('bhim', this)">BHIM</button>
+        <button type="button" class="app-choice" data-app="any" onclick="choosePaymentApp('any', this)">Other UPI</button>
+      </div>
+      <div class="app-selected-text" id="selectedAppText">No app selected</div>
+      <button type="button" class="app-continue-btn" onclick="continueToSelectedApp()">Continue to Payment App</button>
+    </div>
+    <div class="ck-card" style="margin-top:16px"><b>Price Details</b><span style="float:right">₹<span class="checkoutPrice">118</span></span></div>
+  </div>
+  <div class="ck-bottom"><div class="total">₹<span class="checkoutPrice">118</span></div><button class="ck-btn" onclick="completeOrder()">Place Order</button></div>
+</div>
+
+<div class="checkout-screen" id="successScreen">
+  <div class="ck-head"><span>ORDER STATUS</span></div>
+  <div class="success-box"><div class="tick">❌</div><h2>Payment Is Not Completed!</h2><p>Order Not Placed .</p><button class="ck-btn" onclick="closeCheckout()">Order Again</button></div>
+</div>
+
+<script>
+// ===== DELIVERY + PAYMENT CHECKOUT FLOW =====
+let selectedSizeForCheckout = '';
+// Uses DEMO_UPI_ID declared in PRODUCT SETTINGS above.
+
+function getCheckoutPrice(){
+  try { return Math.round(Number(currentPrice())); } catch(e) { return 118; }
+}
+function updateCheckoutUI(){
+  const price=getCheckoutPrice();
+  document.querySelectorAll('.checkoutPrice').forEach(x=>x.textContent=price);
+  const title=document.getElementById('reviewProductTitle');
+  const img=document.getElementById('reviewProductImage');
+  if(title && current) title.textContent=current.title || 'Product';
+  if(img && current) img.src=current.image || (current.images && current.images[0]) || '';
+  const sizeEl=document.getElementById('reviewSize');
+  if(sizeEl) sizeEl.textContent='Size: '+(selectedSizeForCheckout || selectedSize || 'Selected')+' · Qty: 1';
+  document.getElementById('upiIdText').textContent=DEMO_UPI_ID;
+  // Fixed amount UPI payment intent generated from the current product price.
+  const amount=price.toFixed(2);
+  const upi=`upi://pay?pa=${encodeURIComponent(DEMO_UPI_ID)}&pn=${encodeURIComponent('Demo Store')}&am=${amount}&cu=INR&tn=${encodeURIComponent((current&&current.title)||'Product Order')}`;
+  const qr=document.getElementById('upiQr');
+  if(qr) qr.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data='+encodeURIComponent(upi);
+}
+function showScreen(id){
+  document.querySelectorAll('.checkout-screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  updateCheckoutUI();
+}
+function openCheckout(){
+  selectedSizeForCheckout=(typeof selectedSize!=='undefined'&&selectedSize)?selectedSize:'';
+  updateCheckoutUI();
+  showScreen('addressScreen');
+}
+function closeCheckout(){
+  document.querySelectorAll('.checkout-screen').forEach(s=>s.classList.remove('active'));
+}
+function backToAddress(){showScreen('addressScreen')}
+function saveAddressStep(){
+  const n=document.getElementById('addrName').value.trim();
+  const p=document.getElementById('addrPhone').value.trim();
+  if(!n){alert('Please enter your name.');return}
+  if(!/^\d{10}$/.test(p)){alert('Please enter a valid 10 digit contact number.');return}
+  showScreen('addressDetailsScreen');
+}
+function saveAddressAndReview(){
+  const pin=document.getElementById('addrPin').value.trim();
+  const city=document.getElementById('addrCity').value.trim();
+  const state=document.getElementById('addrState').value.trim();
+  const house=document.getElementById('addrHouse').value.trim();
+  const road=document.getElementById('addrRoad').value.trim();
+  if(!/^\d{6}$/.test(pin)||!city||!state||!house||!road){alert('Please fill all delivery address details correctly.');return}
+  document.getElementById('reviewName').textContent=document.getElementById('addrName').value.trim();
+  document.getElementById('reviewPhone').textContent=document.getElementById('addrPhone').value.trim();
+  document.getElementById('reviewAddress').textContent=`${house}, ${road}, ${city}, ${state} - ${pin}`;
+  showScreen('reviewScreen');
+}
+function openPayment(){showScreen('paymentScreen')}
+let selectedPaymentMode='qr';
+let selectedPaymentApp='';
+
+function selectUPI(){
+  selectedPaymentMode='qr';
+  document.getElementById('upiOption').classList.add('selected');
+  document.getElementById('appPayOption').classList.remove('selected');
+  document.getElementById('qrBox').classList.add('show');
+  document.getElementById('appPaymentBox').classList.remove('show');
+  updateCheckoutUI();
+}
+
+function selectAppPayment(){
+  selectedPaymentMode='app';
+  document.getElementById('appPayOption').classList.add('selected');
+  document.getElementById('upiOption').classList.remove('selected');
+  document.getElementById('qrBox').classList.remove('show');
+  document.getElementById('appPaymentBox').classList.add('show');
+}
+
+function choosePaymentApp(app, btn){
+  selectedPaymentApp=app;
+  document.querySelectorAll('.app-choice').forEach(x=>x.classList.remove('selected'));
+  btn.classList.add('selected');
+  const names={gpay:'Google Pay',phonepe:'PhonePe',paytm:'Paytm',bhim:'BHIM',any:'Any installed UPI app'};
+  document.getElementById('selectedAppText').textContent='Selected: '+names[app];
+}
+
+function getUPIUrl(){
+  const amount=getCheckoutPrice().toFixed(2);
+  return `upi://pay?pa=${encodeURIComponent(DEMO_UPI_ID)}&pn=${encodeURIComponent('Demo Store')}&am=${amount}&cu=INR&tn=${encodeURIComponent((current&&current.title)||'Product Order')}`;
+}
+
+function continueToSelectedApp(){
+  if(!selectedPaymentApp){
+    alert('Please select a payment app first.');
+    return;
+  }
+  const upi=getUPIUrl();
+  const packages={
+    gpay:'com.google.android.apps.nbu.paisa.user',
+    phonepe:'com.phonepe.app',
+    paytm:'net.one97.paytm',
+    bhim:'in.org.npci.upiapp'
+  };
+
+  // Android intent URL requests the selected installed app directly.
+  if(selectedPaymentApp==='any'){
+    window.location.href=upi;
+    return;
+  }
+
+  const pkg=packages[selectedPaymentApp];
+  const params=upi.replace('upi://pay?','');
+  const intent=`intent://pay?${params}#Intent;scheme=upi;package=${pkg};end`;
+
+  // On supported Android browsers this opens the selected payment app.
+  window.location.href=intent;
+
+  // If the requested app is not installed, fall back to the system UPI chooser.
+  setTimeout(()=>{
+    window.location.href=upi;
+  },1200);
+}
+
+function completeOrder(){
+  if(selectedPaymentMode==='app'){
+    continueToSelectedApp();
+    return;
+  }
+  alert('After paying by QR, tap place order only after payment is successful.');
+  showScreen('successScreen');
+}
+
+// Connect existing Buy buttons to the new checkout, without depending on one exact HTML layout.
+document.addEventListener('click',function(e){
+  const btn=e.target.closest('button');
+  if(!btn) return;
+  const t=(btn.innerText||btn.textContent||'').trim().toLowerCase();
+  if(t.includes('buy at')||t==='buy now'||t.includes('buy now')){
+    e.preventDefault(); openCheckout();
+  }
+},true);
+</script>
+<script>
+// Keep product images visible in checkout/review screens.
+function syncCheckoutProductImages(){
+  const product = (typeof current !== 'undefined' && current) ? current : null;
+  const src = product && (product.image || product.img || product.imageUrl)
+    ? (product.image || product.img || product.imageUrl)
+    : (document.querySelector('.main-product-image img, #mainProductImage, .product-main img') || {}).src;
+
+  document.querySelectorAll('.checkout-product-image, .review-product-image, [data-checkout-product-image]').forEach(img=>{
+    if(src) img.src = src;
+  });
+}
+
+document.addEventListener('error', function(e){
+  const img=e.target;
+  if(img && img.tagName==='IMG' && (img.classList.contains('checkout-product-image') || img.classList.contains('review-product-image') || img.hasAttribute('data-checkout-product-image'))){
+    img.src='https://placehold.co/160x160/f5f5f5/555?text=Product';
+  }
+}, true);
+</script>
+<script>
+(function(){
+  const originalShowScreen = typeof showScreen === 'function' ? showScreen : null;
+  if(originalShowScreen && !window.__productImageShowScreenHook){
+    window.__productImageShowScreenHook=true;
+    window.showScreen=function(name){
+      const result=originalShowScreen.apply(this, arguments);
+      setTimeout(syncCheckoutProductImages, 0);
+      return result;
+    };
+  }
+  document.addEventListener('DOMContentLoaded', syncCheckoutProductImages);
+})();
+</script>
+<script id="product-specific-review-upgrade">
+const PRODUCT_SPECIFIC_REVIEWS={
+1:{media:[
+'https://images.meesho.com/images/ratings_reviews/8124569557/8164799143/8124569557_8164799143_830f8b8edc6ff.avif?width=512',
+'https://images.meesho.com/images/ratings_reviews/7374107244/7411392807/7374107244_7411392807_cf029c13d3de9.avif?width=512',
+'https://images.meesho.com/images/ratings_reviews/8627870996/8670620240/8627870996_8670620240_358e82b665c34.avif?width=128'],
+reviews:[
+{name:'Priya',rating:'5 ★',body:'Very nice kurti. Fabric aur fitting dono achhe hain.'},
+{name:'Neha',rating:'4 ★',body:'Product looks good and the embroidery is beautiful.'},
+{name:'Anjali',rating:'5 ★',body:'Value for money. Colour combination bahut accha hai.'}]},
+2:{media:[
+'https://images.meesho.com/images/ratings_reviews/8629067601/8671820864/8629067601_8671820864_aa43ca3d6500f.avif?width=128',
+'https://images.meesho.com/images/ratings_reviews/8710180015/8753354473/8710180015_8753354473_6f88d74c38b85.avif?width=128',
+'https://images.meesho.com/images/ratings_reviews/8124569557/8164799143/8124569557_8164799143_8893524bf0bb3.avif?width=512'],
+reviews:[
+{name:'Kavita',rating:'4 ★',body:'Soft fabric aur colour bilkul photos jaisa hai.'},
+{name:'Pooja',rating:'5 ★',body:'Beautiful kurti. Size perfect mila.'},
+{name:'Riya',rating:'4 ★',body:'Good quality for the price, stitching bhi theek hai.'}]}
+};
+function upgradeProductReviews(){
+ const data=PRODUCT_SPECIFIC_REVIEWS[current&&current.id];
+ if(!data)return;
+ const media=document.getElementById('customerMedia');
+ if(media)media.innerHTML=data.media.map(u=>`<button class="media" style="background-image:url('${u}')" onclick="openImage('${u}')"></button>`).join('');
+ const cards=document.querySelectorAll('.review,.review-card,.reviewItem');
+ cards.forEach((card,i)=>{
+  const r=data.reviews[i%data.reviews.length];
+  const name=card.querySelector('.name,.review-name,h4,h5');
+  const body=card.querySelector('.review-text,.text,p');
+  const rating=card.querySelector('.review-rating,.rating');
+  if(name)name.textContent=r.name;
+  if(body)body.textContent=r.body;
+  if(rating)rating.textContent=r.rating;
+ });
+}
+const oldOpenProduct=typeof openProduct==='function'?openProduct:null;
+if(oldOpenProduct){openProduct=function(id){oldOpenProduct(id);setTimeout(upgradeProductReviews,0);};}
+const oldOpenAllReviews=typeof openAllReviews==='function'?openAllReviews:null;
+if(oldOpenAllReviews){openAllReviews=function(){upgradeProductReviews();oldOpenAllReviews();};}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(upgradeProductReviews,0));
+</script>
+
+<script id="all-six-products-reviews">
+const ALL_PRODUCT_REVIEWS={
+1:{media:['https://images.meesho.com/images/ratings_reviews/8685673835/8728681688/8685673835_8728681688_4dad78f9f3176.avif?width=128','https://images.meesho.com/images/ratings_reviews/7480172511/7517904888/7480172511_7517904888_cfcfb506a7b51.avif?width=128','https://images.meesho.com/images/ratings_reviews/7480172511/7517904888/7480172511_7517904888_fb2be1dd222b8.avif?width=128','https://images.meesho.com/images/ratings_reviews/8625924864/8668666596/8625924864_8668666596_ae5cbf1b900cd.avif?width=128','https://images.meesho.com/images/ratings_reviews/8124569557/8164799143/8124569557_8164799143_830f8b8edc6ff.avif?width=512','https://images.meesho.com/images/ratings_reviews/7374107244/7411392807/7374107244_7411392807_cf029c13d3de9.avif?width=512','https://images.meesho.com/images/ratings_reviews/8627870996/8670620240/8627870996_8670620240_358e82b665c34.avif?width=128'],reviews:[['Madhumita Anand','5 ★ Excellent','Its beautiful 😍 fab 👌 perfect fit 👌'],['Isha J','5 ★ Excellent','Quality best and fitting is very good.']]},
+2:{media:['https://images.meesho.com/images/ratings_reviews/8557405718/8599874363/8557405718_8599874363_7947ff34bf392.avif?width=128','https://images.meesho.com/images/ratings_reviews/8557405718/8599874363/8557405718_8599874363_768a95766411a.avif?width=128','https://images.meesho.com/images/ratings_reviews/8756414473/8799917401/8756414473_8799917401_11706da5cda6f.avif?width=128','https://images.meesho.com/images/ratings_reviews/7455575057/7493204591/7455575057_7493204591_0d6f2ebcba985.avif?width=512','https://images.meesho.com/images/ratings_reviews/7739400570/7778153288/7739400570_7778153288_cf3806af90393.avif?width=128','https://images.meesho.com/images/ratings_reviews/5987109833/6018705372/5987109833_6018705372_5bfc1d52c9e01.avif?width=128','https://images.meesho.com/images/ratings_reviews/8450197141/8492132024/8450197141_8492132024_e35de3a6e61c5.avif?width=128','https://images.meesho.com/images/ratings_reviews/8394280132/8435905481/8394280132_8435905481_0ff26b7366471.avif?width=128'],reviews:[['Kavita','4 ★ Excellent','Soft fabric aur colour bilkul photos jaisa hai.'],['Pooja','5 ★ Excellent','Beautiful kurti. Size perfect mila.']]},
+3:{media:['https://images.meesho.com/images/ratings_reviews/-2016527215/-2040104028/-2016527215_-2040104028_5bf2644886e84.avif?width=128','https://images.meesho.com/images/ratings_reviews/1/205317883/1_205317883_a12f0841cb6de.avif?width=128','https://images.meesho.com/images/ratings_reviews/5731159352/5761490112/5731159352_5761490112_204c4163a9142.avif?width=512'],reviews:[['Riya','5 ★ Excellent','Very nice product and good quality for this price.'],['Sunita','4 ★ Excellent','Fabric is comfortable and fitting is good.']]},
+4:{media:['https://images.meesho.com/images/ratings_reviews/8757025177/8800533936/8757025177_8800533936_3e8350f0156bf.avif?width=128','https://images.meesho.com/images/ratings_reviews/8503348139/8545569991/8503348139_8545569991_3126cb850da8a.avif?width=128','https://images.meesho.com/images/ratings_reviews/1/-80059262/1_-80059262_690656d7c2cd9.avif?width=128'],reviews:[['Neha','5 ★ Excellent','Colour is beautiful and product looks exactly like image.'],['Shalini','4 ★ Excellent','Good kurti for daily wear.']]},
+5:{media:['https://images.meesho.com/images/ratings_reviews/8468497175/8510528811/8468497175_8510528811_5c6f4cc681a6e.avif?width=128','https://images.meesho.com/images/ratings_reviews/8418446816/8460202867/8418446816_8460202867_31ad33c26803f.avif?width=128','https://images.meesho.com/images/ratings_reviews/8399545672/8441200593/8399545672_8441200593_9aa1e4117c221.avif?width=128','https://images.meesho.com/images/ratings_reviews/8465712644/8507728220/8465712644_8507728220_5b58fddfee8ea.avif?width=128','https://images.meesho.com/images/ratings_reviews/8465712644/8507728220/8465712644_8507728220_005f6f0890c97.avif?width=128'],reviews:[['Anjali','5 ★ Excellent','Nice design and comfortable material.'],['Rekha','5 ★ Excellent','Worth buying. Quality is better than expected.']]},
+6:{media:['https://images.meesho.com/images/ratings_reviews/6496412329/6530380420/6496412329_6530380420_7fbe1e01ea4f9.avif?width=128','https://images.meesho.com/images/ratings_reviews/5969786795/6001297885/5969786795_6001297885_ecd255464f035.avif?width=128','https://images.meesho.com/images/ratings_reviews/5787007845/5817610726/5787007845_5817610726_382c9e5a84941.avif?width=128','https://images.meesho.com/images/ratings_reviews/7710316983/7748965027/7710316983_7748965027_b77890142783b.avif?width=128'],reviews:[['Komal','4 ★ Excellent','Good product for the price and nice stitching.'],['Nisha','5 ★ Excellent','Very happy with this kurti.']] }
+};
+
+function refreshAllProductReviews(){
+  const d=ALL_PRODUCT_REVIEWS[current.id];
+  if(!d)return;
+  const media=document.getElementById('customerMedia');
+  if(media)media.innerHTML=d.media.map(u=>`<button class="media" aria-label="Open customer image" style="background-image:url('${u}')" onclick="openImage('${u}')"></button>`).join('');
+  const cards=document.querySelectorAll('.section .review');
+  cards.forEach((card,i)=>{
+    const r=d.reviews[i%d.reviews.length];
+    const badge=card.querySelector('.badge');
+    const p=card.querySelector('p');
+    const name=card.querySelector('div:not(.badge)');
+    if(badge)badge.textContent=r[1];
+    if(p){
+      const short=p.querySelector('.short'), full=p.querySelector('.full'), btn=p.querySelector('.readmore');
+      if(short)short.textContent=r[2];
+      if(full)full.textContent=r[2];
+      if(!short && !full)p.childNodes[0].textContent=r[2];
+      if(btn)btn.textContent='Read More';
+    }
+    if(name)name.textContent='− '+r[0];
+  });
+}
+const __baseRenderProduct=renderProduct;
+renderProduct=function(){__baseRenderProduct();setTimeout(refreshAllProductReviews,0);};
+document.addEventListener('DOMContentLoaded',()=>setTimeout(refreshAllProductReviews,0));
+</script>
+
+
+<script id="product-page-router">
+(function(){
+  function loadProductFromURL(){
+    const m=window.location.hash.match(/^#product-(\d+)$/);
+    const id=m?Number(m[1]):1;
+    const found=products.find(p=>p.id===id);
+    if(!found)return;
+    current=found;
+    selectedSize=Object.keys(current.sizes).find(s=>!current.disabled.includes(s))||Object.keys(current.sizes)[0];
+    renderProduct();
+    setTimeout(()=>{ if(typeof refreshAllProductReviews==='function') refreshAllProductReviews(); },0);
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',loadProductFromURL);
+  window.addEventListener('DOMContentLoaded',loadProductFromURL);
+})();
+</script>
+
+</body>
+</html>
